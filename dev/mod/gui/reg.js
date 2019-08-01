@@ -1,0 +1,1 @@
+CIM.reg(ItemID.ritual_pouch, {gui: pouch});

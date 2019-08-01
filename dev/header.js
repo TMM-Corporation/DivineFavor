@@ -1,0 +1,2 @@
+importLib("CIM", '*');
+IMPORT("NativeAPI");

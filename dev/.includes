@@ -1,0 +1,9 @@
+header.js
+Api's/FileApi.js
+Api's/GunRegistry.js
+mod/gui/guis.js
+mod/gui/reg.js
+mod/items.js
+mod/items/Bone_Dagger.js
+mod/items/bow.js
+mod/items/shards.js
