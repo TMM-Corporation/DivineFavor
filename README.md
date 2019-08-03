@@ -2,6 +2,7 @@
 
  # <img src="https://icmods.mineprogramming.org/api/img/1138.png" width="32" height="32" /> Divine Favor | InnerCore 
  ![](https://img.shields.io/badge/dynamic/json?color=green&label=Скачиваний&query=%24.downloads&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Версия&query=%24.version&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Понравилось&query=%24.likes&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge)
+ 
 Неофициальный порт мода с пк. Мод будет дорабатываться, после окончания мода будет готов мод MCJEI. Cсылка на мод для пк - [тут](https://www.curseforge.com/minecraft/mc-mods/divine-favor "здеся")
 ### Описание мода:
 Мод имеет 9 тематических духов, и каждый из них предлагает несколько мощных талисманов. Талисман - это предмет, который позволяет игроку читать заклинания. Чтобы использовать талисманы, вы должны получить благосклонность духа, которому он принадлежит. Контактируйте с духами, торгуйте с ними, обретайте благосклонность и используйте духовную силу. Также содержит внутриигровой путеводитель под названием Immaterial guide.
