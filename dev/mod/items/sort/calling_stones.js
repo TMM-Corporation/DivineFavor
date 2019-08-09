@@ -1,0 +1,10 @@
+regItem("arbow_calling_stone", "Arbow Calling Stone", 1);
+regItem("blizrabi_calling_stone", "Blizrabi Calling Stone", 1);
+regItem("endererer_calling_stone", "Endererer Calling Stone", 1);
+regItem("loon_calling_stone", "Loon Calling Stone", 1);
+regItem("materia_calling_stone", "Materia Calling Stone", 1);
+regItem("neblaze_calling_stone", "Neblaze Calling Stone", 1);
+regItem("redwind_calling_stone", "Redwind Calling Stone", 1);
+regItem("romol_calling_stone", "Romol Calling Stone", 1);
+regItem("squarefury_calling_stone", "Squarefury Calling Stone", 1);
+regItem("timber_calling_stone", "Timber Calling Stone", 1);

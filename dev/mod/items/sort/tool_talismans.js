@@ -1,0 +1,18 @@
+regItem("aquatic", "Aquatic Tool talisman", 1);
+regItem("break_blocks", "Break blocks Tool talisman", 1);
+regItem("break_radius", "Break radius Tool talisman", 1);
+regItem("break_side", "Break side Tool talisman", 1);
+regItem("break_surface", "Break surface Tool talisman", 1);
+regItem("destroy_blocks", "Destroy blocks Tool talisman", 1);
+regItem("destroy_cuboid", "Destroy cuboid Tool talisman", 1);
+regItem("destroy_side", "Destroy side Tool talisman", 1);
+regItem("destroy_surface", "Destroy surface Tool talisman", 1);
+regItem("fell_tree", "Fell tree Tool talisman", 1);
+regItem("ground_pick", "Ground pick Tool talisman", 1);
+regItem("ice_carving", "Ice carving Tool talisman", 1);
+regItem("memory_tool", "Memory tool Tool talisman", 1);
+regItem("molten_tool", "Molten tool Tool talisman", 1);
+regItem("obsidian_carving", "Obsidian carving Tool talisman", 1);
+regItem("void_tool", "Void tool Tool talisman", 1);
+regItem("volcanic_glass_cutter", "Volcanic glass cutter Tool talisman", 1);
+regItem("wood_peck", "Wood peck Tool talisman", 1);

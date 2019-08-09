@@ -1,26 +1,9 @@
-IDRegistry.genItemID("end_shard");
-Item.createItem("end_shard", "End Soul shard", {name: "end"}, {stack: 1});
-
-IDRegistry.genItemID("mind_shard");
-Item.createItem("mind_shard", "Mind Soul shard", {name: "mind"}, {stack: 1});
-
-IDRegistry.genItemID("nether_shard");
-Item.createItem("nether_shard", "Nether Soul shard", {name: "nether"}, {stack: 1});
-
-IDRegistry.genItemID("peace_shard");
-Item.createItem("peace_shard", "Peace Soul shard", {name: "peace"}, {stack: 1});
-
-IDRegistry.genItemID("undeath_shard");
-Item.createItem("undeath_shard", "Undeath Soul shard", {name: "undeath"}, {stack: 1});
-
-IDRegistry.genItemID("water_shard");
-Item.createItem("water_shard", "Water Soul shard", {name: "water"}, {stack: 1});
-
-IDRegistry.genItemID("wild_shard");
-Item.createItem("wild_shard", "Wild Soul shard", {name: "wild"}, {stack: 1});
-
-IDRegistry.genItemID("will_shard");
-Item.createItem("will_shard", "Will Soul shard", {name: "will"}, {stack: 1});
-
-IDRegistry.genItemID("wither_shard");
-Item.createItem("wither_shard", "Wither Soul shard", {name: "wither"}, {stack: 1});
+regItem("end_soul_shard", "End Soul shard", 64);
+regItem("mind_soul_shard", "Mind Soul shard", 64);
+regItem("nether_soul_shard", "Nether Soul shard", 64);
+regItem("peace_soul_shard", "Peace Soul shard", 64);
+regItem("undeath_soul_shard", "Undeath Soul shard", 64);
+regItem("water_soul_shard", "Water Soul shard", 64);
+regItem("wild_soul_shard", "Wild Soul shard", 64);
+regItem("will_soul_shard", "Will Soul shard", 64);
+regItem("wither_soul_shard", "Wither Soul shard", 64);

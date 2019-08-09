@@ -1,0 +1,10 @@
+regItem("arbow_favor_mark", "Arbow Favor mark", 1);
+regItem("blizrabi_favor_mark", "Blizrabi Favor mark", 1);
+regItem("endererer_favor_mark", "Endererer Favor mark", 1);
+regItem("loon_favor_mark", "Loon Favor mark", 1);
+regItem("materia_favor_mark", "Materia Favor mark", 1);
+regItem("neblaze_favor_mark", "Neblaze Favor mark", 1);
+regItem("redwind_favor_mark", "Redwind Favor mark", 1);
+regItem("romol_favor_mark", "Romol Favor mark", 1);
+regItem("squarefury_favor_mark", "Squarefury Favor mark", 1);
+regItem("timber_favor_mark", "Timber Favor mark", 1);

@@ -2,8 +2,16 @@
 BUILD INFO:
   dir: dev
   target: main.js
-  files: 6
+  files: 9
 */
+
+
+
+// file: header.js
+
+importLib("CIM", '*');
+IMPORT("NativeAPI");
+
 
 
 
@@ -122,7 +130,7 @@ var FileAPI={
 
 
 
-// file: Api's/GunRegistry.js
+// file: Api's/BowRegistry.js
 
 IMPORT("Inventory");
 //some stuff
@@ -136,265 +144,292 @@ var View = android.view.View;
 var ctx = UI.getContext();
 
 function runAsUI(func) {
-	ctx.runOnUiThread(new java.lang.Runnable({
-		run: function () {
-			try {
-				func();
-			} catch (err) {
-				Game.message(err);
-				alert(err);
-			}
-		}
-	}));
+  ctx.runOnUiThread(new java.lang.Runnable({
+    run: function () {
+      try {
+        func();
+      } catch (err) {
+        Game.message(err);
+        alert(err);
+      }
+    }
+  }));
 }
 
-var GunRegistry = {
-	guns: [],
-	bullets: [],
-	hurt: [],
-	inGame: false,
-	registerGun: function (gun) {
-		gun.shooting = false;
-		GunRegistry.guns.push(gun);
-		if (gun.automatic) {
-			Item.registerNoTargetUseFunction(gun.gun, GunRegistry.switchShooting);
-			Item.registerUseFunction(gun.gun, GunRegistry.switchShooting);
-		} else {
-			Item.registerNoTargetUseFunction(gun.gun, GunRegistry.shoot);
-			Item.registerUseFunction(gun.gun, GunRegistry.shoot);
-		}
-	},
+var BowRegistry = {
+  bows: [],
+  bullets: [],
+  hurt: [],
+  inGame: false,
+  registerBow: function (bow) {
+    gun.shooting = false;
+    BowRegistry.bows.push(bow);
+    if (gun.automatic) {
+      Item.registerNoTargetUseFunction(gun.bow, BowRegistry.switchShooting);
+      Item.registerUseFunction(gun.bow, BowRegistry.switchShooting);
+    } else if (gun.bow) {
+//      Item.registerNoTargetUseFunction(gun.bow, BowRegistry.aler());
+   //   Item.registerUsingReleasedFunction(gun.bow, BowRegistry.aler());
+ //     Item.registerUsingCompleteFunction(gun.bow, BowRegistry.aler());
+    } else {
+      Item.registerNoTargetUseFunction(gun.bow, BowRegistry.shoot);
+      Item.registerUseFunction(gun.bow, BowRegistry.shoot);
+    }
+  },
+  aler: function(strings){
+  	let bow = BowRegistry.getBow(Player.getCarriedItem().id);
+  	if(bow){
+	//  	Item.onUsingComplete(gun.bow);
+	//      Item.onUseNoTarget(gun.bow);
+	   //   Item.onUsingReleased(gun.bow, 100);
+	      alert(strings);
+      }
+  },
+  getBow: function (bowId) {
+    for (var i in BowRegistry.bows) {
+      let bow = BowRegistry.bows[i];
+      if (gun.bow == bowId)
+        return bow;
+    }
+    return false;
+  },
+
+  switchShooting: function () {
+    let bow = BowRegistry.getBow(Player.getCarriedItem().id);
+    gun.shooting = !gun.shooting;
+  },
+
+  disableShooting: function () {
+    for (var i in BowRegistry.bows) {
+      BowRegistry.bows[i].shooting = false;
+    }
+  },
 
 
 
-	getGun: function (gunId) {
-		for (var i in GunRegistry.guns) {
-			let gun = GunRegistry.guns[i];
-			if (gun.gun == gunId)
-				return gun;
-		}
-		return false;
-	},
+  shoot: function () {
+    let bow = BowRegistry.getBow(Player.getCarriedItem().id);
+    if (PlayerInventory.retrieveItem(gun.bullet)) {
 
-	switchShooting: function () {
-		let gun = GunRegistry.getGun(Player.getCarriedItem().id);
-		gun.shooting = !gun.shooting;
-	},
+      let coords = Entity.getPosition(Player.get());
+      let lookAngle = Entity.getLookAngle(Player.get());
+      let velocity = {
+        x: -Math.sin(lookAngle.yaw) * gun.speed,
+        y: Math.sin(lookAngle.pitch) * gun.speed,
+        z: Math.cos(lookAngle.yaw) * gun.speed
+      }
 
-	disableShooting: function () {
-		for (var i in GunRegistry.guns) {
-			GunRegistry.guns[i].shooting = false;
-		}
-	},
+      let entity = Entity.spawn(coords.x, coords.y, coords.z, 80);
 
+      BowRegistry.bullets.push({
+        "entity": entity,
+        damage: gun.damage
+      });
+      Entity.setSkin(entity, gun.skin);
+      Entity.setVelocity(entity, velocity.x, velocity.y, velocity.z);
+      // Item.overrideCurrentIcon("spell_bow_pulling_2", 0);
+    }
+  },
+  runAnim: function(bow) {
+    gun.state++;
+    Player.setCarriedItem(gun.bow, 1, gun.state);
+   // Item.overrideCurrentIcon(gun.texture, gun.state);
+    if (gun.state == gun.variations) {
+      BowRegistry.shoot();
+      gun.state = 0;
+      Player.setCarriedItem(gun.bow, 1, 0);
+      gun.shooting = false;
+    }
+  },
+  animatedShoot: function() {
+    let bow = BowRegistry.getBow(Player.getCarriedItem().id);
+    gun.shooting=true;
+  },
 
+  showAim: function (bow) {
+    if (BowRegistry.aimShown || !BowRegistry.inGame) return;
+    runAsUI(function () {
+      BowRegistry.aimShown = true;
+      BowRegistry.aimImage.setImageBitmap(gun.aim);
 
-	shoot: function () {
-		let gun = GunRegistry.getGun(Player.getCarriedItem().id);
-		if (PlayerInventory.retrieveItem(gun.bullet)) {
-
-			let coords = Entity.getPosition(Player.get());
-			let lookAngle = Entity.getLookAngle(Player.get());
-			let velocity = {
-				x: -Math.sin(lookAngle.yaw) * gun.speed,
-				y: Math.sin(lookAngle.pitch) * gun.speed,
-				z: Math.cos(lookAngle.yaw) * gun.speed
-			}
-			let entity = Entity.spawn(coords.x, coords.y, coords.z, 80);
-
-			GunRegistry.bullets.push({
-				"entity": entity,
-				damage: gun.damage
-			});
-			Entity.setSkin(entity, gun.skin);
-			Entity.setVelocity(entity, velocity.x, velocity.y, velocity.z);
-			// Item.overrideCurrentIcon("spell_bow_pulling_2", 0);
-		}
-	},
-
-	showAim: function (gun) {
-		if (GunRegistry.aimShown || !GunRegistry.inGame) return;
-		runAsUI(function () {
-			GunRegistry.aimShown = true;
-			GunRegistry.aimImage.setImageBitmap(gun.aim);
-
-			GunRegistry.windowAim.showAtLocation(ctx.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
-		});
-		if (gun.fov) {
-			// Player.setFov(gun.fov);
-		}
-	},
-	hideAim: function () {
-
-		if (!GunRegistry.aimShown) return;
-
-		runAsUI(function () {
-			GunRegistry.windowAim.dismiss();
-			GunRegistry.aimShown = false;
-			GunRegistry.disableShooting();
-		});
-		Player.resetFov();
-	}
+      BowRegistry.windowAim.showAtLocation(ctx.getWindow().getDecorView(), Gravity.LEFT | Gravity.TOP, 0, 0);
+    });
+    if (gun.fov) {
+      // Player.setFov(gun.fov);
+    }
+  },
+  hideAim: function () {
+    if (!BowRegistry.aimShown) return;
+    runAsUI(function () {
+      BowRegistry.windowAim.dismiss();
+      BowRegistry.aimShown = false;
+      BowRegistry.disableShooting();
+    });
+    Player.resetFov();
+  }
 };
 
 runAsUI(function () {
-	//Main layout of the whole window
-	var layoutMain = new LinearLayout(ctx);
-	layoutMain.setOrientation(0);
-	layoutMain.setGravity(Gravity.CENTER);
-	var params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+  //Main layout of the whole window
+  var layoutMain = new LinearLayout(ctx);
+  layoutMain.setOrientation(0);
+  layoutMain.setGravity(Gravity.CENTER);
+  var params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-	layoutMain.setLayoutParams(params);
-	GunRegistry.aimImage = new android.widget.ImageView(ctx);
-	layoutMain.addView(GunRegistry.aimImage);
+  layoutMain.setLayoutParams(params);
+  BowRegistry.aimImage = new android.widget.ImageView(ctx);
+  layoutMain.addView(BowRegistry.aimImage);
 
-	//Popup Window for displaying the staff
-	GunRegistry.windowAim = new android.widget.PopupWindow(layoutMain, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-	GunRegistry.windowAim.setTouchable(false);
-	GunRegistry.windowAim.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+  //Popup Window for displaying the staff
+  BowRegistry.windowAim = new android.widget.PopupWindow(layoutMain, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+  BowRegistry.windowAim.setTouchable(false);
+  BowRegistry.windowAim.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
 });
 
 
 Callback.addCallback("ProjectileHit", function (projectile, item, target) {
-	GunRegistry.bullets = GunRegistry.bullets.filter(function (bullet) {
-		if (bullet.entity == projectile) {
-			// Entity.remove(projectile);
-			if (target.entity != -1) {
-				GunRegistry.hurt.push({
-					entity: target.entity,
-					damage: bullet.damage
-				});
-			}
-			return false;
-		}
-		return true;
-	});
+  BowRegistry.bullets = BowRegistry.bullets.filter(function (bullet) {
+    if (bullet.entity == projectile) {
+      // Entity.remove(projectile);
+      if (target.entity != -1) {
+        BowRegistry.hurt.push({
+          entity: target.entity,
+          damage: bullet.damage
+        });
+      }
+      return false;
+    }
+    return true;
+  });
 });
 // Callback.addCallback("ItemUse", function (coords, item, block) {
 // 	alert("ID: " + item.id + ", Count: " + item.count + ", Data: " + item.data);
 // });
 Callback.addCallback("EntityHurt", function (attacker, victim, damage) {
-	var entity = -1;
-	let gun = GunRegistry.getGun(Player.getCarriedItem().id);
-	GunRegistry.hurt = GunRegistry.hurt.filter(function (ent) {
-		if (ent.entity == victim) {
-			entity = ent;
-			return false;
-		}
-		if (entity != -1) {
-			Entity.damageEntity(entity.entity, entity.damage);
-			Entity.addEffect(entity.entity, gun.effect, 1, gun.efftime, false, false);
-			Entity.addEffect(Player.get(), gun.playereff, 1, gun.plefftime, false, false);
-			Entity.setFire(entity.entity, gun.ftime);
-			Game.prevent();
-		}
-		return true;
-	})
+  var entity = -1;
+  let bow = BowRegistry.getBow(Player.getCarriedItem().id);
+  BowRegistry.hurt = BowRegistry.hurt.filter(function (ent) {
+    if (ent.entity == victim) {
+      entity = ent;
+      return false;
+    }
+    if (entity != -1) {
+      Entity.damageEntity(entity.entity, entity.damage);
+      Entity.addEffect(entity.entity, gun.effect, 1, gun.efftime, false, false);
+      Entity.addEffect(Player.get(), gun.playereff, 1, gun.plefftime, false, false);
+      Entity.setFire(entity.entity, gun.ftime);
+      Game.prevent();
+    }
+    return true;
+  })
 });
 
-let counter = 0;
-
-function animatedShoot(gun) {
-	var state = 0;
-	for (let i = 0; i < gun.variations; i++){
-		if (counter == gun.animTime) {
-			state++;
-			Player.setCarriedItem(gun.gun, 1, state);
-			counter = 0;
-		}
-	}
-	if (state == gun.variations)	GunRegistry.shoot();
-}
-
 Callback.addCallback("tick", function () {
-	let gun = GunRegistry.getGun(Player.getCarriedItem().id);
-	let ticks = World.getThreadTime();
-	if (ticks % 5 === 0) {
-		if (gun) {
-			if (gun != GunRegistry.currentGun) {
-				GunRegistry.currentGun = gun;
-				GunRegistry.hideAim();
-			}
-			GunRegistry.showAim(gun);
-		} else {
-			GunRegistry.hideAim();
-		}
-	}
-
-	if (gun && gun.automatic && gun.shooting && ticks % gun.automatic === 15) {
-		counter++;
-		animatedShoot(gun);
-	}
-
+  let bow = BowRegistry.getBow(Player.getCarriedItem().id);
+  let ticks = World.getThreadTime();
+  if (ticks % 4 === 0) {
+    if (bow) {
+      if (bow != BowRegistry.currentBow) {
+        BowRegistry.currentBow = bow;
+        BowRegistry.hideAim();
+      }
+      if(gun.shooting){
+        	runAsUI(function(){BowRegistry.runAnim(bow);});
+        }
+      BowRegistry.showAim(bow);
+    } else {
+      BowRegistry.hideAim();
+    }
+  }
+  if (bow && gun.automatic && gun.shooting && ticks % gun.automatic === 15) {
+    BowRegistry.shoot();
+  }
 });
 
 
 Callback.addCallback("NativeGuiChanged", function (screenName) {
-	if (screenName == "hud_screen" ||
-		screenName == "in_game_play_screen") {
-		GunRegistry.inGame = true;
-	} else {
-		GunRegistry.inGame = false;
-		GunRegistry.hideAim();
-	}
+  if (screenName == "hud_screen" ||
+    screenName == "in_game_play_screen") {
+    BowRegistry.inGame = true;
+  } else {
+    BowRegistry.inGame = false;
+    BowRegistry.hideAim();
+  }
 });
 
 Callback.addCallback("DestroyBlockStart", function () {
-	if (GunRegistry.getGun(Player.getCarriedItem().id) != false) {
-		Game.prevent();
+  if (BowRegistry.getBow(Player.getCarriedItem().id) != false) {
+    Game.prevent();
+  }
+});
+
+
+
+
+// file: mod/gui/guis.js
+
+var pouch = new UI.StandartWindow({
+	standart: {header: {text: {text: "Ritual pouch"}},
+	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
+	drawing: [],
+	elements: {
+		"slot_0": {type: "slot", x: 490, y: 270, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
+		"slot_1": {type: "slot", x: 550, y: 270, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
+		"slot_2": {type: "slot", x: 610, y: 270, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
+		"slot_3": {type: "slot", x: 550, y: 210, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
+		"slot_4": {type: "slot", x: 490, y: 150, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
+		"slot_5": {type: "slot", x: 550, y: 150, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
+		"slot_6": {type: "slot", x: 610, y: 150, size: 60, visual: false, bitmap: "custom.slot_default",  needClean: true, isTransparentBackground: true},
 	}
 });
 
 
 
 
-// file: header.js
+// file: mod/gui/reg.js
 
-importLib("CIIM", '*');
+CIM.reg(ItemID.ritual_pouch, {gui: pouch});
 
 
 
 
 // file: mod/items.js
 
-IDRegistry.genItemID("charcoal");
-Item.createItem("charcoal", "Charcoal blend", {name: "charcoal"}, {stack: 64});
+IDRegistry.genItemID("charcoal_blend");
+Item.createItem("charcoal_blend", "Charcoal blend", {name: "charcoal_blend"}, {stack: 64});
 
-IDRegistry.genItemID("ender_pearl");
-Item.createItem("ender_pearl", "Ender pearl blend", {name: "ender_pearl"}, {stack: 64});
+IDRegistry.genItemID("ender_pearl_blend");
+Item.createItem("ender_pearl_blend", "Ender pearl blend", {name: "ender_pearl_blend"}, {stack: 64});
 
-IDRegistry.genItemID("ethereal_goo");
-Item.createItem("ethereal_goo", "Ethereal goo blend", {name: "ethereal_goo"}, {stack: 64});
+IDRegistry.genItemID("ethereal_goo_blend");
+Item.createItem("ethereal_goo_blend", "Ethereal goo blend", {name: "ethereal_goo_blend"}, {stack: 64});
 
-IDRegistry.genItemID("feathers");
-Item.createItem("feathers", "Feathers blend", {name: "feathers"}, {stack: 64});
+IDRegistry.genItemID("feathers_blend");
+Item.createItem("feathers_blend", "Feathers blend", {name: "feathers_blend"}, {stack: 64});
 
-IDRegistry.genItemID("fleshy");
-Item.createItem("fleshy", "Fleshy blend", {name: "fleshy"}, {stack: 64});
+IDRegistry.genItemID("fleshy_blend");
+Item.createItem("fleshy_blend", "Fleshy blend", {name: "fleshy_blend"}, {stack: 64});
 
-IDRegistry.genItemID("flint");
-Item.createItem("flint", "Flint blend", {name: "flint"}, {stack: 64});
+IDRegistry.genItemID("flint_blend");
+Item.createItem("flint_blend", "Flint blend", {name: "flint_blend"}, {stack: 64});
 
-IDRegistry.genItemID("lapis");
-Item.createItem("lapis", "Lapis blend", {name: "lapis"}, {stack: 64});
+IDRegistry.genItemID("lapis_blend");
+Item.createItem("lapis_blend", "Lapis blend", {name: "lapis_blend"}, {stack: 64});
 
-IDRegistry.genItemID("redstone");
-Item.createItem("redstone", "Redstone blend", {name: "redstone"}, {stack: 64});
+IDRegistry.genItemID("redstone_blend");
+Item.createItem("redstone_blend", "Redstone blend", {name: "redstone_blend"}, {stack: 64});
 
-IDRegistry.genItemID("snow");
-Item.createItem("snow", "Snow blend", {name: "snow"}, {stack: 64});
+IDRegistry.genItemID("snow_blend");
+Item.createItem("snow_blend", "Snow blend", {name: "snow_blend"}, {stack: 64});
 
-IDRegistry.genItemID("wood");
-Item.createItem("wood", "Wood blend", {name: "wood"}, {stack: 64});
+IDRegistry.genItemID("wood_blend");
+Item.createItem("wood_blend", "Wood blend", {name: "wood_blend"}, {stack: 64});
 
 IDRegistry.genItemID("ice_arrow");
 Item.createItem("ice_arrow", "Ice arrow", {name: "ice_arrow"}, {stack: 1});
 
 IDRegistry.genItemID("memory_drop");
 Item.createItem("memory_drop", "Memory drop", {name: "memory_drop"}, {stack: 1});
-
-IDRegistry.genItemID("bone_dagger_awakened");
-Item.createItem("bone_dagger_awakened", "Bone dagger awakened backup", {name: "bone_dagger_awakened"}, {stack: 1});
 
 IDRegistry.genItemID("blade_green");
 Item.createItem("blade_green", "Green Spell blade", {name: "blade_green"}, {stack: 1});
@@ -410,9 +445,6 @@ Item.createItem("pick_orange", "Orange Spell pickaxe", {name: "pick_orange"}, {s
 
 IDRegistry.genItemID("banishing_wand");
 Item.createItem("banishing_wand", "Banishing wand", {name: "banishing_wand"}, {stack: 1});
-
-IDRegistry.genItemID("bone_key");
-Item.createItem("bone_key", "Bone key backup", {name: "bone_key - Copy"}, {stack: 1});
 
 IDRegistry.genItemID("paint");
 Item.createItem("paint", "Paint Ethereal Brush", {name: "paint"}, {stack: 1});
@@ -496,35 +528,35 @@ IDRegistry.genItemID("stone_ball");
 Item.createItem("stone_ball", "Stone ball", {name: "stone_ball"}, {stack: 1});
 
 
-IDRegistry.genItemID("arbow");
-Item.createItem("arbow", "Arbow Wishing stone", {name: "arbow"}, {stack: 1});
+IDRegistry.genItemID("arbow_wishing_stone");
+Item.createItem("arbow_wishing_stone", "Arbow Wishing stone", {name: "arbow_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("blizrabi");
-Item.createItem("blizrabi", "Blizrabi Wishing stone", {name: "blizrabi"}, {stack: 1});
+IDRegistry.genItemID("blizrabi_wishing_stone");
+Item.createItem("blizrabi_wishing_stone", "Blizrabi Wishing stone", {name: "blizrabi_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("endererer");
-Item.createItem("endererer", "Endererer Wishing stone", {name: "endererer"}, {stack: 1});
+IDRegistry.genItemID("endererer_wishing_stone");
+Item.createItem("endererer_wishing_stone", "Endererer Wishing stone", {name: "endererer_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("loon");
-Item.createItem("loon", "Loon Wishing stone", {name: "loon"}, {stack: 1});
+IDRegistry.genItemID("loon_wishing_stone");
+Item.createItem("loon_wishing_stone", "Loon Wishing stone", {name: "loon_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("materia");
-Item.createItem("materia", "Materia Wishing stone", {name: "materia"}, {stack: 1});
+IDRegistry.genItemID("materia_wishing_stone");
+Item.createItem("materia_wishing_stone", "Materia Wishing stone", {name: "materia_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("neblaze");
-Item.createItem("neblaze", "Neblaze Wishing stone", {name: "neblaze"}, {stack: 1});
+IDRegistry.genItemID("neblaze_wishing_stone");
+Item.createItem("neblaze_wishing_stone", "Neblaze Wishing stone", {name: "neblaze_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("redwind");
-Item.createItem("redwind", "Redwind Wishing stone", {name: "redwind"}, {stack: 1});
+IDRegistry.genItemID("redwind_wishing_stone");
+Item.createItem("redwind_wishing_stone", "Redwind Wishing stone", {name: "redwind_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("romol");
-Item.createItem("romol", "Romol Wishing stone", {name: "romol"}, {stack: 1});
+IDRegistry.genItemID("romol_wishing_stone");
+Item.createItem("romol_wishing_stone", "Romol Wishing stone", {name: "romol_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("squarefury");
-Item.createItem("squarefury", "Squarefury Wishing stone", {name: "squarefury"}, {stack: 1});
+IDRegistry.genItemID("squarefury_wishing_stone");
+Item.createItem("squarefury_wishing_stone", "Squarefury Wishing stone", {name: "squarefury_wishing_stone"}, {stack: 1});
 
-IDRegistry.genItemID("timber");
-Item.createItem("timber", "Timber Wishing stone", {name: "timber"}, {stack: 1});
+IDRegistry.genItemID("timber_wishing_stone");
+Item.createItem("timber_wishing_stone", "Timber Wishing stone", {name: "timber_wishing_stone"}, {stack: 1});
 
 IDRegistry.genItemID("roots");
 Item.createItem("roots", "Roots Cursed Arrow", {name: "roots"}, {stack: 1});
@@ -898,9 +930,6 @@ Item.createItem("winter_breath", "Winter breath Spell talisman", {name: "winter_
 IDRegistry.genItemID("wooden_punch");
 Item.createItem("wooden_punch", "Wooden punch Spell talisman", {name: "wooden_punch"}, {stack: 1});
 
-IDRegistry.genItemID("1");
-Item.createItem("1", "1 Blade Talisman", {name: "1"}, {stack: 1});
-
 IDRegistry.genItemID("blade_of_snow");
 Item.createItem("blade_of_snow", "Blade of snow Blade Talisman", {name: "blade_of_snow"}, {stack: 1});
 
@@ -985,103 +1014,38 @@ Item.createItem("book_green", "Book green Spell blade", {name: "book_green"}, {s
 IDRegistry.genItemID("book_red");
 Item.createItem("book_red", "Book red Spell blade", {name: "book_red"}, {stack: 1});
 
-IDRegistry.genItemID("end");
-Item.createItem("end", "End Soul shard", {name: "end"}, {stack: 1});
-
-IDRegistry.genItemID("mind");
-Item.createItem("mind", "Mind Soul shard", {name: "mind"}, {stack: 1});
-
-IDRegistry.genItemID("nether");
-Item.createItem("nether", "Nether Soul shard", {name: "nether"}, {stack: 1});
-
-IDRegistry.genItemID("peace");
-Item.createItem("peace", "Peace Soul shard", {name: "peace"}, {stack: 1});
-
-IDRegistry.genItemID("undeath");
-Item.createItem("undeath", "Undeath Soul shard", {name: "undeath"}, {stack: 1});
-
-IDRegistry.genItemID("water");
-Item.createItem("water", "Water Soul shard", {name: "water"}, {stack: 1});
-
-IDRegistry.genItemID("wild");
-Item.createItem("wild", "Wild Soul shard", {name: "wild"}, {stack: 1});
-
-IDRegistry.genItemID("will");
-Item.createItem("will", "Will Soul shard", {name: "will"}, {stack: 1});
-
-IDRegistry.genItemID("wither");
-Item.createItem("wither", "Wither Soul shard", {name: "wither"}, {stack: 1});
-
 IDRegistry.genItemID("spell_bow_book");
-Item.createItem("spell_bow_book", "Spell bow book Spell bow", {name: "spell_bow_book"}, {stack: 1});
+Item.createItem("spell_bow_book", "Spell bow book", {name: "spell_bow_book"}, {stack: 1});
 
+IDRegistry.genItemID("arbow_calling_stone");
+Item.createItem("arbow_calling_stone", "Arbow Calling Stone", {name: "arbow_calling_stone"}, {stack: 1});
 
+IDRegistry.genItemID("blizrabi_calling_stone");
+Item.createItem("blizrabi_calling_stone", "Blizrabi Calling Stone", {name: "blizrabi_calling_stone"}, {stack: 1});
 
+IDRegistry.genItemID("endererer_calling_stone");
+Item.createItem("endererer_calling_stone", "Endererer Calling Stone", {name: "endererer_calling_stone"}, {stack: 1});
 
+IDRegistry.genItemID("loon_calling_stone");
+Item.createItem("loon_calling_stone", "Loon Calling Stone", {name: "loon_calling_stone"}, {stack: 1});
 
+IDRegistry.genItemID("materia_calling_stone");
+Item.createItem("materia_calling_stone", "Materia Calling Stone", {name: "materia_calling_stone"}, {stack: 1});
 
-IDRegistry.genItemID("arbow");
-Item.createItem("arbow", "Arbow Favor marks - Copy", {name: "arbow"}, {stack: 1});
+IDRegistry.genItemID("neblaze_calling_stone");
+Item.createItem("neblaze_calling_stone", "Neblaze Calling Stone", {name: "neblaze_calling_stone"}, {stack: 1});
 
-IDRegistry.genItemID("blizrabi");
-Item.createItem("blizrabi", "Blizrabi Favor marks - Copy", {name: "blizrabi"}, {stack: 1});
+IDRegistry.genItemID("redwind_calling_stone");
+Item.createItem("redwind_calling_stone", "Redwind Calling Stone", {name: "redwind_calling_stone"}, {stack: 1});
 
-IDRegistry.genItemID("diamond");
-Item.createItem("diamond", "Diamond Favor marks - Copy", {name: "diamond"}, {stack: 1});
+IDRegistry.genItemID("romol_calling_stone");
+Item.createItem("romol_calling_stone", "Romol Calling Stone", {name: "romol_calling_stone"}, {stack: 1});
 
-IDRegistry.genItemID("endererer");
-Item.createItem("endererer", "Endererer Favor marks - Copy", {name: "endererer"}, {stack: 1});
+IDRegistry.genItemID("squarefury_calling_stone");
+Item.createItem("squarefury_calling_stone", "Squarefury Calling Stone", {name: "squarefury_calling_stone"}, {stack: 1});
 
-IDRegistry.genItemID("loon");
-Item.createItem("loon", "Loon Favor marks - Copy", {name: "loon"}, {stack: 1});
-
-IDRegistry.genItemID("neblaze");
-Item.createItem("neblaze", "Neblaze Favor marks - Copy", {name: "neblaze"}, {stack: 1});
-
-IDRegistry.genItemID("redwind");
-Item.createItem("redwind", "Redwind Favor marks - Copy", {name: "redwind"}, {stack: 1});
-
-IDRegistry.genItemID("romol");
-Item.createItem("romol", "Romol Favor marks - Copy", {name: "romol"}, {stack: 1});
-
-IDRegistry.genItemID("squarefury");
-Item.createItem("squarefury", "Squarefury Favor marks - Copy", {name: "squarefury"}, {stack: 1});
-
-IDRegistry.genItemID("timber");
-Item.createItem("timber", "Timber Favor marks - Copy", {name: "timber"}, {stack: 1});
-
-IDRegistry.genItemID("arbow");
-Item.createItem("arbow", "Arbow Calling Stone", {name: "arbow"}, {stack: 1});
-
-IDRegistry.genItemID("blizrabi");
-Item.createItem("blizrabi", "Blizrabi Calling Stone", {name: "blizrabi"}, {stack: 1});
-
-IDRegistry.genItemID("endererer");
-Item.createItem("endererer", "Endererer Calling Stone", {name: "endererer"}, {stack: 1});
-
-IDRegistry.genItemID("loon");
-Item.createItem("loon", "Loon Calling Stone", {name: "loon"}, {stack: 1});
-
-IDRegistry.genItemID("materia");
-Item.createItem("materia", "Materia Calling Stone", {name: "materia"}, {stack: 1});
-
-IDRegistry.genItemID("neblaze");
-Item.createItem("neblaze", "Neblaze Calling Stone", {name: "neblaze"}, {stack: 1});
-
-IDRegistry.genItemID("redwind");
-Item.createItem("redwind", "Redwind Calling Stone", {name: "redwind"}, {stack: 1});
-
-IDRegistry.genItemID("romol");
-Item.createItem("romol", "Romol Calling Stone", {name: "romol"}, {stack: 1});
-
-IDRegistry.genItemID("squarefury");
-Item.createItem("squarefury", "Squarefury Calling Stone", {name: "squarefury"}, {stack: 1});
-
-IDRegistry.genItemID("timber");
-Item.createItem("timber", "Timber Calling Stone", {name: "timber"}, {stack: 1});
-
-IDRegistry.genItemID("1");
-Item.createItem("1", "1 Tool talisman", {name: "1"}, {stack: 1});
+IDRegistry.genItemID("timber_calling_stone");
+Item.createItem("timber_calling_stone", "Timber Calling Stone", {name: "timber_calling_stone"}, {stack: 1});
 
 IDRegistry.genItemID("aquatic");
 Item.createItem("aquatic", "Aquatic Tool talisman", {name: "aquatic"}, {stack: 1});
@@ -1240,7 +1204,7 @@ IDRegistry.genItemID("roots");
 Item.createItem("roots", "Roots Arrow Talisman", {name: "roots"}, {stack: 1});
 
 IDRegistry.genItemID("skybound");
-Item.createItem("skybound", "Skybound Arrow Talisman", {name: "skybound - Copy"}, {stack: 1});
+Item.createItem("skybound", "Skybound Arrow Talisman", {name: "skybound"}, {stack: 1});
 
 IDRegistry.genItemID("skyfall");
 Item.createItem("skyfall", "Skyfall Arrow Talisman", {name: "skyfall"}, {stack: 1});
@@ -1272,35 +1236,35 @@ Item.createItem("yummy_smell", "Yummy smell Arrow Talisman", {name: "yummy_smell
 IDRegistry.genItemID("zero_g");
 Item.createItem("zero_g", "Zero g Arrow Talisman", {name: "zero_g"}, {stack: 1});
 
-IDRegistry.genItemID("arbow");
-Item.createItem("arbow", "Arbow Favor mark", {name: "arbow"}, {stack: 1});
+IDRegistry.genItemID("arbow_favor_mark");
+Item.createItem("arbow_favor_mark", "Arbow Favor mark", {name: "arbow"}, {stack: 1});
 
-IDRegistry.genItemID("blizrabi");
-Item.createItem("blizrabi", "Blizrabi Favor mark", {name: "blizrabi"}, {stack: 1});
+IDRegistry.genItemID("blizrabi_favor_mark");
+Item.createItem("blizrabi_favor_mark", "Blizrabi Favor mark", {name: "blizrabi"}, {stack: 1});
 
-IDRegistry.genItemID("endererer");
-Item.createItem("endererer", "Endererer Favor mark", {name: "endererer"}, {stack: 1});
+IDRegistry.genItemID("endererer_favor_mark");
+Item.createItem("endererer_favor_mark", "Endererer Favor mark", {name: "endererer"}, {stack: 1});
 
-IDRegistry.genItemID("loon");
-Item.createItem("loon", "Loon Favor mark", {name: "loon"}, {stack: 1});
+IDRegistry.genItemID("loon_favor_mark");
+Item.createItem("loon_favor_mark", "Loon Favor mark", {name: "loon"}, {stack: 1});
 
-IDRegistry.genItemID("materia");
-Item.createItem("materia", "Materia Favor mark", {name: "materia"}, {stack: 1});
+IDRegistry.genItemID("materia_favor_mark");
+Item.createItem("materia_favor_mark", "Materia Favor mark", {name: "materia"}, {stack: 1});
 
-IDRegistry.genItemID("neblaze");
-Item.createItem("neblaze", "Neblaze Favor mark", {name: "neblaze"}, {stack: 1});
+IDRegistry.genItemID("neblaze_favor_mark");
+Item.createItem("neblaze_favor_mark", "Neblaze Favor mark", {name: "neblaze"}, {stack: 1});
 
-IDRegistry.genItemID("redwind");
-Item.createItem("redwind", "Redwind Favor mark", {name: "redwind"}, {stack: 1});
+IDRegistry.genItemID("redwind_favor_mark");
+Item.createItem("redwind_favor_mark", "Redwind Favor mark", {name: "redwind"}, {stack: 1});
 
-IDRegistry.genItemID("romol");
-Item.createItem("romol", "Romol Favor mark", {name: "romol"}, {stack: 1});
+IDRegistry.genItemID("romol_favor_mark");
+Item.createItem("romol_favor_mark", "Romol Favor mark", {name: "romol"}, {stack: 1});
 
-IDRegistry.genItemID("squarefury");
-Item.createItem("squarefury", "Squarefury Favor mark", {name: "squarefury"}, {stack: 1});
+IDRegistry.genItemID("squarefury_favor_mark");
+Item.createItem("squarefury_favor_mark", "Squarefury Favor mark", {name: "squarefury"}, {stack: 1});
 
-IDRegistry.genItemID("timber");
-Item.createItem("timber", "Timber Favor mark", {name: "timber"}, {stack: 1});
+IDRegistry.genItemID("timber_favor_mark");
+Item.createItem("timber_favor_mark", "Timber Favor mark", {name: "timber"}, {stack: 1});
 
 IDRegistry.genItemID("book_blue");
 Item.createItem("book_blue", "Book blue Spell pickaxe", {name: "book_blue"}, {stack: 1});
@@ -1308,44 +1272,38 @@ Item.createItem("book_blue", "Book blue Spell pickaxe", {name: "book_blue"}, {st
 IDRegistry.genItemID("book_orange");
 Item.createItem("book_orange", "Book orange Spell pickaxe", {name: "book_orange"}, {stack: 1});
 
-IDRegistry.genItemID("arbow");
-Item.createItem("arbow", "Arbow symbol", {name: "arbow"}, {stack: 1});
+IDRegistry.genItemID("arbow_symbol");
+Item.createItem("arbow_symbol", "Arbow symbol", {name: "arbow_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("blizrabi");
-Item.createItem("blizrabi", "Blizrabi symbol", {name: "blizrabi"}, {stack: 1});
+IDRegistry.genItemID("blizrabi_symbol");
+Item.createItem("blizrabi_symbol", "Blizrabi symbol", {name: "blizrabi_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("endererer");
-Item.createItem("endererer", "Endererer symbol", {name: "endererer"}, {stack: 1});
+IDRegistry.genItemID("endererer_symbol");
+Item.createItem("endererer_symbol", "Endererer symbol", {name: "endererer_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("loon");
-Item.createItem("loon", "Loon symbol", {name: "loon"}, {stack: 1});
+IDRegistry.genItemID("loon_symbol");
+Item.createItem("loon_symbol", "Loon symbol", {name: "loon_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("materia");
-Item.createItem("materia", "Materia symbol", {name: "materia"}, {stack: 1});
+IDRegistry.genItemID("materia_symbol");
+Item.createItem("materia_symbol", "Materia symbol", {name: "materia_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("neblaze");
-Item.createItem("neblaze", "Neblaze symbol", {name: "neblaze"}, {stack: 1});
+IDRegistry.genItemID("neblaze_symbol");
+Item.createItem("neblaze_symbol", "Neblaze symbol", {name: "neblaze_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("redwind");
-Item.createItem("redwind", "Redwind symbol", {name: "redwind"}, {stack: 1});
+IDRegistry.genItemID("redwind_symbol");
+Item.createItem("redwind_symbol", "Redwind symbol", {name: "redwind_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("romol");
-Item.createItem("romol", "Romol symbol", {name: "romol"}, {stack: 1});
+IDRegistry.genItemID("romol_symbol");
+Item.createItem("romol_symbol", "Romol symbol", {name: "romol_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("squarefury");
-Item.createItem("squarefury", "Squarefury symbol", {name: "squarefury"}, {stack: 1});
+IDRegistry.genItemID("squarefury_symbol");
+Item.createItem("squarefury_symbol", "Squarefury symbol", {name: "squarefury_symbol"}, {stack: 1});
 
-IDRegistry.genItemID("timber");
-Item.createItem("timber", "Timber symbol", {name: "timber"}, {stack: 1});
+IDRegistry.genItemID("timber_symbol");
+Item.createItem("timber_symbol", "Timber symbol", {name: "timber_symbol"}, {stack: 1});
 
 IDRegistry.genItemID("hand_swap");
 Item.createItem("hand_swap", "Hand swap Spell arrow", {name: "hand_swap"}, {stack: 1});
-
-IDRegistry.genItemID("bone_dagger");
-Item.createItem("bone_dagger", "Bone dagger", {name: "bone_dagger"}, {stack: 1});
-
-IDRegistry.genItemID("bone_dagger_awakened");
-Item.createItem("bone_dagger_awakened", "Bone dagger awakened", {name: "bone_dagger_awakened"}, {stack: 1});
 
 IDRegistry.genItemID("bone_key");
 Item.createItem("bone_key", "Bone key", {name: "bone_key"}, {stack: 1});
@@ -1381,15 +1339,88 @@ Item.createItem("warp_pebble", "Warp pebble", {name: "warp_pebble"}, {stack: 1})
 
 
 
-// file: mod/bow.js
+// file: mod/items/Bone_Dagger.js
+
+function random(min, max) {
+    var rand = min - 0.5 + Math.random() * (max - min + 1)
+    rand = Math.round(rand);
+    return rand;
+}
+IDRegistry.genItemID("bone_dagger");
+Item.createItem("bone_dagger", "Bone dagger", {name: "bone_dagger"}, {stack: 1});
+Recipes.addShaped({
+  id: ItemID.bone_dagger,
+  count: 1,
+  data: 0
+}, ["  a", "bc ", "db "], ['a', 352, 0, 'b', 2, 0, 'c', 264, 0, 'd', 280, 0]);
+
+IDRegistry.genItemID("bone_dagger_awakened");
+Item.createItem("bone_dagger_awakened", "Bone dagger awakened", {name: "bone_dagger_awakened"}, {stack: 1});
+
+function dropByEntity(victim, entityID, item, drop) {
+  if (Entity.getType(victim) == entityID && Player.getCarriedItem().id == item) {
+    var pos = Entity.getPosition(victim);
+    World.drop(pos.x, pos.y, pos.z, drop.id, drop.count, drop.data);
+  }
+}
+Callback.addCallback("PlayerAttack", function (player, victim) {
+  var rand = random(0, 10);
+  if (rand == 10 && Player.getCarriedItem().id === ItemID.bone_dagger) {
+    Player.setCarriedItem(ItemID.bone_dagger_awakened, 1, 0);
+    Game.message("Awakened bone Dagger");
+  }
+  dropByEntity(victim, 38, ItemID.bone_dagger_awakened, {id: ItemID.end_shard, count: 1, data: 0}); //ENDERMAN
+  dropByEntity(victim, 15, ItemID.bone_dagger_awakened, {id: ItemID.mind_shard, count: 1, data: 0}); //VILLAGER
+
+  dropByEntity(victim, 42, ItemID.bone_dagger_awakened, {id: ItemID.nether_shard, count: 1, data: 0}); //LAVA SLIME
+  dropByEntity(victim, 43, ItemID.bone_dagger_awakened, {id: ItemID.nether_shard, count: 1, data: 0}); //BLAZE
+  dropByEntity(victim, 41, ItemID.bone_dagger_awakened, {id: ItemID.nether_shard, count: 1, data: 0}); //GHAST
+  dropByEntity(victim, 36, ItemID.bone_dagger_awakened, {id: ItemID.nether_shard, count: 1, data: 0}); //PIGMAN
+  dropByEntity(victim, 48, ItemID.bone_dagger_awakened, {id: ItemID.nether_shard, count: 1, data: 0}); //WITHER SKELETON
+
+  dropByEntity(victim, 11, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //COW
+  dropByEntity(victim, 10, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //CHICKEN
+  dropByEntity(victim, 16, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //MUSHROOM COW
+  dropByEntity(victim, 22, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //OCELOT
+  dropByEntity(victim, 12, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //PIG
+  dropByEntity(victim, 18, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //RABBIT
+  dropByEntity(victim, 13, ItemID.bone_dagger_awakened, {id: ItemID.peace_shard, count: 1, data: 0}); //SHEEP
+
+  dropByEntity(victim, 32, ItemID.bone_dagger_awakened, {id: ItemID.undeath_shard, count: 1, data: 0}); //ZOMBIE
+  dropByEntity(victim, 34, ItemID.bone_dagger_awakened, {id: ItemID.undeath_shard, count: 1, data: 0}); //SKELETON
+
+  dropByEntity(victim, 17, ItemID.bone_dagger_awakened, {id: ItemID.water_shard, count: 1, data: 0}); //SQUID
+  dropByEntity(victim, 49, ItemID.bone_dagger_awakened, {id: ItemID.water_shard, count: 1, data: 0}); //GUARDIANS
+  
+  dropByEntity(victim, 37, ItemID.bone_dagger_awakened, {id: ItemID.wild_shard, count: 1, data: 0}); //SLIME
+  dropByEntity(victim, 33, ItemID.bone_dagger_awakened, {id: ItemID.wild_shard, count: 1, data: 0}); //CREEPER
+  dropByEntity(victim, 35, ItemID.bone_dagger_awakened, {id: ItemID.wild_shard, count: 1, data: 0}); //SPIDER
+
+  dropByEntity(victim, 63, ItemID.bone_dagger_awakened, {id: ItemID.end_shard, count: 1, data: 0});
+});
+
+
+
+
+// file: mod/items/gun.js
 
 IDRegistry.genItemID("spell_bow");
 Item.createItem("spell_bow", "Spell bow standby Spell bow", {name: "spell_bow", meta: 0}, {stack: 1});
 Item.registerIconOverrideFunction(ItemID.spell_bow, function (item, name) {
   return {name: "spell_bow", meta: item.data}
 });
-GunRegistry.registerGun({
-  gun: ItemID.spell_bow,
+Item.describeItem(ItemID.spell_bow, {
+  category: 1, // категория в креативе
+  toolRender: true, // рендер в руке, как инструмент
+  stackByData: false, // стакается по data
+  properties: {
+    "use_animation": "bow",
+    "use_duration": 100
+  }, // родной объект параметров MCPE
+  useAnimation: 4 // анимация использозвания
+})
+BowRegistry.registerBow({
+  bow: ItemID.spell_bow,
   texture: "spell_bow",
   bullet: 262,
   skin: "entity/projectiles/arrow.png",
@@ -1397,45 +1428,43 @@ GunRegistry.registerGun({
   damage: 4,
   aim: BitmapFactory.decodeFile(__dir__ + "gui/aim_0.png"),
   fov: 90,
-  animTime: 15,
-  variations: 4
+  animTime: 45,
+  variations: 4,
+  state: 0,
+  bow: true
 });
 
 
 
 
-// file: addItems.js
+// file: mod/items/shards.js
 
-// function createItem(name, itemName) {
-//  var idRegistry = "IDRegistry.genItemID(\"" + name.replace(" - Copy", '') + "\");" + "\nItem.createItem(\"" + name.replace(" - Copy", '') + "\", \"" + name.replace("_", ' ').replace(" - Copy", '') + " " + itemName + "\", {name: \"" + name + "\"}, {stack: 1});\n\n";
-//  return idRegistry;
-// }
-// var files = FileTools.GetListOfFiles(__dir__ + "assets/items-opaque").sort();
-// var dirs = FileTools.GetListOfDirs(__dir__ + "assets/items-opaque");
-// FileAPI.create(__dir__, "file.json");
-// var json = "";
-// for (let i in dirs) {
-//   var dir = FileTools.GetListOfFiles(dirs[i]).sort();
-//   for (let u in dir) {
-//     let name = dir[u].getName().toString().replace('.png', '');
-//     let pathname = dir[u].getParent().toString().replace(__dir__ + "assets/items-opaque/", '');
-//     json += createItem(name, pathname);
-//   }
-// }
-// for (let i in files) {
-//   json += createItem(files[i].toString().replace(__dir__ + "assets/items-opaque/", '').replace('.png', ''));
-// }
-// FileTools.WriteText(__dir__ + "file.json", json);
-// function getFun(fun) {
-//   let json = "";
-//   for(let i in fun){
-//     json += "\ni: "+i+"\n";
-//     if (fun.i != undefined) json += "\n fun.i: " + fun.i + "\n";
-//     // if (fun. != undefined) json += "\n fun.i: " + fun.i().toString()+"\n";
-//   }
-//   FileTools.WriteText(__dir__ + "file.json", json);
-// }
-// getFun(Item);
+IDRegistry.genItemID("end_shard");
+Item.createItem("end_shard", "End Soul shard", {name: "end"}, {stack: 64});
+
+IDRegistry.genItemID("mind_shard");
+Item.createItem("mind_shard", "Mind Soul shard", {name: "mind"}, {stack: 64});
+
+IDRegistry.genItemID("nether_shard");
+Item.createItem("nether_shard", "Nether Soul shard", {name: "nether"}, {stack: 64});
+
+IDRegistry.genItemID("peace_shard");
+Item.createItem("peace_shard", "Peace Soul shard", {name: "peace"}, {stack: 64});
+
+IDRegistry.genItemID("undeath_shard");
+Item.createItem("undeath_shard", "Undeath Soul shard", {name: "undeath"}, {stack: 64});
+
+IDRegistry.genItemID("water_shard");
+Item.createItem("water_shard", "Water Soul shard", {name: "water"}, {stack: 64});
+
+IDRegistry.genItemID("wild_shard");
+Item.createItem("wild_shard", "Wild Soul shard", {name: "wild"}, {stack: 64});
+
+IDRegistry.genItemID("will_shard");
+Item.createItem("will_shard", "Will Soul shard", {name: "will"}, {stack: 64});
+
+IDRegistry.genItemID("wither_shard");
+Item.createItem("wither_shard", "Wither Soul shard", {name: "wither"}, {stack: 64});
 
 
 
