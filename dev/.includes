@@ -19,3 +19,6 @@ mod/items/sort/blade_talismans.js
 mod/items/sort/spell_talismans.js
 mod/items/sort/tool_talismans.js
 mod/items/Bone_Dagger.js
+
+mod/blocks/regBlock.js
+mod/blocks/bath_heater.js

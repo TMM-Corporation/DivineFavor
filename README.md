@@ -1,5 +1,5 @@
  # <img src="https://icmods.mineprogramming.org/api/img/1138.png" width="32" height="32" /> Divine Favor | InnerCore 
- ![](https://img.shields.io/badge/dynamic/json?color=green&label=Скачиваний&query=%24.downloads&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Версия&query=%24.version&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Понравилось&query=%24.likes&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge)
+ ![](https://img.shields.io/badge/dynamic/json?color=green&label=Скачиваний&query=%24.downloads&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Версия&query=%24.version&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Понравилось&query=%24.likes&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge) ![](https://img.shields.io/badge/dynamic/json?color=green&label=Последнее%20обновление&query=%24.last_update&url=https%3A%2F%2Ficmods.mineprogramming.org%2Fapi%2Fdescription.php%3Fid%3D420?style=for-the-badge)
  
 Неофициальный порт мода с пк. Мод будет дорабатываться, после окончания мода будет готов мод MCJEI. Cсылка на мод для пк - [тут](https://www.curseforge.com/minecraft/mc-mods/divine-favor "здеся")
 ### Описание мода:
@@ -74,7 +74,7 @@
       <img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/blend/redstone.png"/>- Смесь для ванны с пузырьками, дает эффект Energetic aura на время для приманивания духа.
       Крафт довольно простой - 8 душ желания и 1 редстоун.
 
-      <img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/blend/snow.png"/>- Смесь для ванны с пузырьками, дает эффект frosty на время для приманивания духа.
+      <img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/blend/snow.png"/>- Смесь для ванны с пузырьками, дает эффект Frosty aura на время для приманивания духа.
       Крафт довольно простой - 8 душ воды и 1 снежок.
 
       <img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/blend/wood.png"/>- Смесь для ванны с пузырьками, дает эффект Arboreal aura на время для приманивания духа.

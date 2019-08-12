@@ -19,16 +19,7 @@ function regItem(texture, name, stack, tooltip) {
 // regex IDRegistry\.genItemID\(to regItem(
 
 
-regItem("charcoal_blend", "Charcoal blend", 64);
-regItem("ender_pearl_blend", "Ender pearl blend", 64);
-regItem("ethereal_goo_blend", "Ethereal goo blend", 64);
-regItem("feathers_blend", "Feathers blend", 64);
-regItem("fleshy_blend", "Fleshy blend", 64);
-regItem("flint_blend", "Flint blend", 64);
-regItem("lapis_blend", "Lapis blend", 64);
-regItem("redstone_blend", "Redstone blend", 64);
-regItem("snow_blend", "Snow blend", 64);
-regItem("wood_blend", "Wood blend", 64);
+
 regItem("ice_arrow", "Ice arrow", 64);
 regItem("memory_drop", "Memory drop", 64);
 regItem("blade_green", "Green Spell blade", 1);
