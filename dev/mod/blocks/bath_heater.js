@@ -1,16 +1,3 @@
-// var waterStr = [[-3, 3],[-2, 3],[-1,3],[0,3],[1,3],[2,3],[3,3]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
-// var waterStr = [[-3, 1],[-2, 1],[-1,1],[0,1],[1,1],[2,1],[3,1]]
-// var waterStr = [[-3, 0],[-2, 0],[-1,0],[1,0],[2,0],[3,0]]
-// var waterStr = [[-3, -1],[-2, -1],[-1,-1],[0,-1],[1,-1],[2,-1],[3,-1]]
-// var waterStr = [[-3, -2],[-2, -2],[-1,-2],[0,-2],[1,-2],[2,-2],[3,-2]]
-// var waterStr = [[-3, -3],[-2, -3],[-1,-3],[0,-3],[1,-3],[2,-3],[3,-3]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
-// var waterStr = [[-3, 2],[-2, 2],[-1,2],[0,2],[1,2],[2,2],[3,2]]
 regBlock("bath_heater", "Bath Heater", [
     ["bath_heater_bottom", 0],
     ["bath_heater_top_inactive", 0],
@@ -25,12 +12,31 @@ Recipes.addShaped({
   data: 0
 }, ["aba", "cdc", "aaa"], ['a', 1, 0, 'b', 61, 0, 'c', 4, 0, 'd', 54, 0]);
 
-// active model
-var bath_heater_active = new BlockRenderer.Model([
+
+
+var staticModel_inactive = new BlockRenderer.Model([
+    ["bath_heater_bottom", 0],
+    ["bath_heater_top_inactive", 0],
+    ["bath_heater_side", 0],
+    ["bath_heater_side", 0],
+    ["bath_heater_side", 0],
+    ["bath_heater_side", 0]
+]); // модификация модели staticModel 
+var icRenderModel_inactive = new ICRender.Model();
+icRenderModel_inactive.addEntry(staticModel_inactive); 
+BlockRenderer.enableCoordMapping(BlockID.bath_heater, -1, icRenderModel_inactive)
+
+var staticModel_active = new BlockRenderer.Model([
     ["bath_heater_bottom", 0],
     ["bath_heater_top_active", 0],
+    ["bath_heater_side", 0],
+    ["bath_heater_side", 0],
+    ["bath_heater_side", 0],
     ["bath_heater_side", 0]
-]);
+]); // модификация модели staticModel 
+var icRenderModel_active = new ICRender.Model();
+icRenderModel_active.addEntry(staticModel_active); 
+// BlockRenderer.setStaticICRender(BlockID.testRenderBlock, -1, icRenderModel);
 
 var Bubble = Particles.registerParticleType({
     type: 1,
@@ -40,44 +46,12 @@ var Bubble = Particles.registerParticleType({
     velocity: [0, 0.005, 0]
 });
 
-
+var emitter = Particles.ParticleEmitter(0, 0, 0);
 var Emit = function (x, y, z) {
-    // var emitter = Particles.ParticleEmitter(x, y, z)
-    // emitter.setEmitRelatively(true)
-    // var vy = Math.random()
-    // vy>=0.5 && (vy=0.2)
-    // emitter.emit(Bubble, 0, Math.random(), vy, Math.random())
+    var vy = Math.random()
+    vy>0.6 && (vy=0);
+    emitter.emit(Bubble, 0, x+Math.random(), y+vy, z+Math.random())
 }
-
-
-// Callback.addCallback("EntityHurt", function (attacker, victim, damage) {
-
-//     if (config && attacker == Player.get()) {
-//         return;
-//     }
-
-//     const pos = Entity.getPosition(victim);
-//     const emitter = new Particles.ParticleEmitter(pos.x, pos.y, pos.z);
-//     emitter.setEmitRelatively(true);
-//     Emit(emitter, 20);
-//     let i = 0;
-
-//     for (i = damage / 20 | 0; i--;) {
-        
-//     }
-//     damage %= 20;
-
-//     for (i = damage >> 1; i--;) {
-//         Emit(emitter, 2);
-//     }
-
-//     if (damage & 1) {
-//         Emit(emitter, 1);
-//     }
-
-// });
-
-
 
 
 var blend = {
@@ -219,9 +193,9 @@ TileEntity.registerPrototype(BlockID.bath_heater, {
             this.container.validateSlot("blend")
         );
 
-        this.data.burn <= 0 && (this.data.work = false, this.data.burn = this.data.burnMax = this.getFuel("fuel"));
+        this.data.burn <= 0 && (this.data.work = false, this.data.burn = this.data.burnMax = this.getFuel("fuel"), BlockRenderer.unmapAtCoords(this.x, this.y, this.z));
 
-        this.data.burn > 0 && (this.data.work = true, this.data.burn-- , (ticks % 40 === 0) && (this.genBubbles(this.x, this.y, this.z)));
+        this.data.burn > 0 && (this.data.work = true, this.data.burn-- , BlockRenderer.mapAtCoords(this.x, this.y, this.z, icRenderModel_active),  (ticks % 40 === 0) && (this.genBubbles(this.x, this.y, this.z)));
 
         (this.data.burn > 0, this.data.item, this.data.progressItem != 0, this.data.id != null) &&
             (this.data.progressItem-- ,

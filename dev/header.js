@@ -27,7 +27,7 @@ function getInformation() {
 	return {
 		name: "Divine Favor",
 		author: "TooManyMods",
-		version: "0.6.2",
+		version: "0.6.2.4",
 		description: "Magic, spirits and other..."
 	};
 };
