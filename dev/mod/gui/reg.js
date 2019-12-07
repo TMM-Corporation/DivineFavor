@@ -1,1 +1,0 @@
-CIM.reg(ItemID.ritual_pouch, {gui: pouch, name: "Ritual Pouch"});

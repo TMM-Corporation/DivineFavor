@@ -1,24 +1,29 @@
 header.js
 translations.js
 Api's/FileApi.js
-Api's/GunRegistry.js
+Api's/BowRegistry.js
 
 mod/gui/guis.js
-mod/gui/reg.js
-mod/spirits.js
 mod/items/regItems.js
-mod/items/regTalismans.js
-mod/items/bow.js
-mod/items/shards.js
-mod/items/sort/ropes.js
-mod/items/sort/wishing_stones.js
-mod/items/sort/calling_stones.js
-mod/items/sort/favor_marks.js
-mod/items/sort/arrow_talismans.js
-mod/items/sort/blade_talismans.js
-mod/items/sort/spell_talismans.js
-mod/items/sort/tool_talismans.js
+mod/items/talismans/regTalismans.js
+
+mod/spirits.js
+mod/items/Bow.js
+mod/items/ropes.js
+mod/items/ingredients/shards.js
+mod/items/ingredients/wishing_stones.js
+mod/items/ingredients/calling_stones.js
+mod/items/ingredients/favor_marks.js
+mod/items/talismans/arrow_talismans.js
+mod/items/talismans/blade_talismans.js
+mod/items/talismans/spell_talismans.js
+mod/items/talismans/tool_talismans.js
 mod/items/Bone_Dagger.js
+mod/items/CIM Items.js
 
 mod/blocks/regBlock.js
 mod/blocks/bath_heater.js
+mod/blocks/blocks.js
+// mod/blocks/medium.js
+mod/blocks/models.js
+mod/blocks/recipes.js

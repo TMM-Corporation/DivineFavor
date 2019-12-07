@@ -1,6 +1,15 @@
 importLib("CIM", '*');
+IMPORT("Inventory");
+importLib("EffectAPI", '*');
+IMPORT("EntityState");
 IMPORT("NativeAPI");
 //Added colors
+
+function WIP(){
+	Game.message("Work in Progress");
+}
+
+
 var Color = {
 	AQUA: "§b",
 	BEGIN: "§",
@@ -27,7 +36,7 @@ function getInformation() {
 	return {
 		name: "Divine Favor",
 		author: "TooManyMods",
-		version: "0.6.2.4",
+		version: "0.6.2.5",
 		description: "Magic, spirits and other..."
 	};
 };
