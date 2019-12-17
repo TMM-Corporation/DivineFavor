@@ -34,17 +34,17 @@ var model_medium_neblaze = createMultiModel(null, ["medium_neblaze", "trading"],
 var model_medium_redwind = createMultiModel(null, ["medium_redwind", "trading"], true, "redstone_block");
 var model_medium_romol = createMultiModel(null, ["medium_romol", "trading"], true, "iron_block");
 var model_medium_squarefury = createMultiModel(null, ["medium_squarefury", "trading"], true, "gold_block");
-var model_medium_timber = createMultiModel(null, ["medium_timber", "trading"], true, "log_oak");
+var model_medium_timber = createMultiModel(null, ["medium_timber", "trading"], true, "log");
 
 //? Soulbound lecterns
 var lectern_coal = createMultiModel(BlockID.lectern_coal, ["lectern_coal"], false, "coal_block", true);
 var lectern_gold = createMultiModel(BlockID.lectern_gold, ["lectern_gold"], false, "gold_block", true);
 var lectern_iron = createMultiModel(BlockID.lectern_iron, ["lectern_iron"], true, "iron_block", true);
-var lectern_log = createMultiModel(BlockID.lectern_log, ["lectern_log"], false, "log_oak", true);
+var lectern_log = createMultiModel(BlockID.lectern_log, ["lectern_log"], false, "log", true);
 var lectern_obsidian = createMultiModel(BlockID.lectern_obsidian, ["lectern_obsidian"], false, "obsidian", true);
 var lectern_snow = createMultiModel(BlockID.lectern_snow, ["lectern_snow"], false, "snow", true);
 var lectern_stone = createMultiModel(BlockID.lectern_stone, ["lectern_stone"], true, "stone", true);
-var lectern_wood = createMultiModel(BlockID.lectern_wood, ["lectern_wood"], false, "planks_oak", true);
+var lectern_wood = createMultiModel(BlockID.lectern_wood, ["lectern_wood"], false, "wood", true);
 
 
 

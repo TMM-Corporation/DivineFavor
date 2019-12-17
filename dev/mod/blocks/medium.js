@@ -118,7 +118,7 @@ medium_Prototype.addMedium("medium_iron", "Iron Medium", [
 medium_Prototype.addMedium("medium_lapis", "Lapis Medium", [
 	["lapis_block", 0], ["lapis_block", 0], ["lapis_block", 0], ["medium_lapis_inactive", 0], ["lapis_block", 0], ["lapis_block", 0]]);
 medium_Prototype.addMedium("medium_log", "Log Medium", [
-	["log_top", 0],	["log_top", 0],	["log_oak", 0], ["medium_log_inactive", 0], ["log_oak", 0], ["log_oak", 0]]);
+	["log_top", 0],	["log_top", 0],	["log", 0], ["medium_log_inactive", 0], ["log", 0], ["log", 0]]);
 medium_Prototype.addMedium("medium_obsidian", "Obsidian Medium", [
 	["obsidian", 0], ["medium_obsidian_inactive", 0], ["obsidian", 0], ["obsidian", 0], ["obsidian", 0], ["obsidian", 0]]);
 medium_Prototype.addMedium("medium_redstone", "Redstone Medium", [
