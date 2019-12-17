@@ -53,5 +53,5 @@ Callback.addCallback("PlayerAttack", function (player, victim) {
 	dropByEntity(victim, 33, ItemID.bone_dagger_awakened, {id: ItemID.wild_soul_shard, count: 1, data: 0}); //CREEPER
 	dropByEntity(victim, 35, ItemID.bone_dagger_awakened, {id: ItemID.wild_soul_shard, count: 1, data: 0}); //SPIDER
 
-	dropByEntity(victim, 63, ItemID.bone_dagger_awakened, {id: ItemID.end_soul_shard, count: 1, data: 0});
+	// dropByEntity(victim, 63, ItemID.bone_dagger_awakened, {id: ItemID.end_soul_shard, count: 1, data: 0}); //ENDERMAN
 });

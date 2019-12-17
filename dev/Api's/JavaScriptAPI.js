@@ -1,3 +1,24 @@
+
+/** 
+ * Better Comments Extension
+ * * Important inforamtion is highlighted
+ * ! Deprecated method, do not use
+ * ? Should this method be exposed in the public API?
+ * Todo: refactor this method so that id conforms to the API
+ * 
+ * Comment Anchors
+ * ANCHOR 
+ * TODO 
+ * NOTE 
+ * REVIEW 
+ * FIXME 
+ * SECTION 
+ * STUB 
+ * !SECTION 
+ */
+/*
+// dsa
+*/
 var __mod__ = "modName",
 	__name__ = "DumpMaker",
 	__dir__ = "/storage/emulated/0/games/com.mojang/mods/modName",
@@ -21,6 +42,7 @@ const Debug = {
 	m() { },
 	bitmap(bitmap, title) { },
 }
+
 const FileTools = {
 	mntdir: "/mnt",
 	root: "/storage/emulated/0/",
@@ -45,13 +67,13 @@ const FileTools = {
 	ReadJSON(dir) { },
 	WriteJSON(dir, obj, beautify) { },
 }
+
 const Threading = {
 	formatFatalErrorMessage(error, name, priority, formatFunc) { },
 	initThread(name, func, priority, isErrorFatal, formatFunc) { },
 	getThread(name) { },
 }
 
-// Config[JavaClass zhekasmirnov.launcher.api.mod.adaptedscript.AdaptedScriptAPI$Config]
 const TileEntity = {
 	resetEngine() { },
 	registerPrototype(blockID, customPrototype) { },
@@ -90,7 +112,6 @@ const MobSpawnRegistry = {
 	onChunkGenerated(x, z) { },
 }
 
-// GameObject GameObject(name, Prototype){}, 
 const GameObject = {
 	genUniqueName(name) { },
 	registerClass(gameObjectClass) { },
@@ -129,6 +150,7 @@ const Saver = {
 	registerObject(obj, saverId) { },
 	setObjectIgnored(obj, ignore) { },
 }
+
 const Callback = {
 	addCallback(name, func) {},
 	invokeCallback(name, args) {},
@@ -224,7 +246,7 @@ const World = {
 	addTileEntity(x, y, z) { },
 	removeTileEntity(x, y, z) { },
 	getContainer(x, y, z) { },
-	getWorldTime() { },
+	getWorldTime() { return 1000; },
 	setWorldTime(time) { },
 	setDayMode(day) { },
 	setNightMode(night) { },
@@ -417,12 +439,7 @@ const Game = {
 	setCamera(entity) { },
 	setTickingSpeed(speed) { }
 }
-// Render RenderAPI(params){}, 
-// Texture Texture(path){}, 
-// EntityModel ModelAPI(parentModel){}, 
-// EntityModelWatcher ModelWatcher(entity, model){}, 
-// EntityAIClass EntityAI(customPrototype){}, 
-// EntityAIWatcher EntityAIWatcher(customPrototype){}, 
+
 const EntityAI = {
 	Idle: {
 		getDefaultPriority() { },
@@ -668,7 +685,6 @@ const EntityAI = {
 	}
 }
 
-
 const GenerationUtils = {
 	isTerrainBlock(id) { },
 	isTransparentBlock(id) { },
@@ -687,7 +703,7 @@ const GenerationUtils = {
 	genMinable(x, y, z, params) { },
 	generateOre(x, y, z, id, data, amount, noStoneCheck) { },
 }
-Animation.Base(., ., .).
+
 const Animation = {
 	Base(x, y, z): {
 		/**
@@ -727,7 +743,7 @@ const Animation = {
 		 * @param {{}} description render: number,skin: string, scale: number
 		 */
 		describe(description){ },
-}
+	}
 }
 // Animation.base AnimationBase(x, y, z){}, 
 // Animation.Base AnimationBase(x, y, z){}, 
@@ -740,13 +756,13 @@ const Particles = {
 	line(particle, coords1, coords2, gap, vel, data) { }
 }
 
-var texture_set = {
+const Textures = {
 	bottom: { "название1", индекс1 }, // bottom
-	top: { "название2", индекс2 }, // top
-	back: { "название3", индекс3 }, // back
-	front: { "название4", индекс4 }, // front
-	left: { "название5", индекс5 }, // left
-	right: { "название6", индекс6 }  // right
+	top:    { "название2", индекс2 }, // top
+	back:   { "название3", индекс3 }, // back
+	front:  { "название4", индекс4 }, // front
+	left:   { "название5", индекс5 }, // left
+	right:  { "название6", индекс6 }  // right
 }
 
 const BlockRenderer = {
@@ -840,8 +856,9 @@ const ICRender = {
 	 * @param {*} condition1 условие 1
 	 * @param {*} condition2 условие 2
 	 */
-	OR(condition1, condition2, …)
+	OR(condition1, condition2, …),
 }
+
 const Block = {
 	getNumericId(id) { },
 	createBlock(namedID, defineData, blockType) { },
@@ -920,7 +937,7 @@ const Item = {
 	setPrototype(namedID, Prototype) { },
 }
 
-Container = {
+const Container = {
 	getSlot(name) { },
 	setSlot(name, id, count, data) { },
 	clearSlot(name) { },
@@ -943,6 +960,7 @@ Container = {
 	setTextColor(name, color) { },
 	setTextShadow(name, shadow) { },
 }
+
 const ToolAPI = {
 	/**
 	 * @argument false 

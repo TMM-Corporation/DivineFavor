@@ -5,7 +5,7 @@ IMPORT("EntityState");
 IMPORT("NativeAPI");
 //Added colors
 
-function WIP(){
+function WIP() {
 	Game.message("Work in Progress");
 }
 
@@ -47,7 +47,7 @@ var NetworkReader = {
 		var text = "";
 		var temp = "";
 		while ((temp = reader.readLine()) != null) {
-			text+=temp;
+			text += temp;
 		}
 		reader.close();
 		return text;
@@ -56,10 +56,29 @@ var NetworkReader = {
 	// 	return this.readTextArray(url).join("\n");
 	// }
 };
-
+function getEntityInRad(x, y, z, radius, entityID) {
+	let entities = Entity.getAll();
+	for (let i in entities) {
+		let ent = entities[i];
+		if (Entity.getType(ent) == entityID) {
+			let c = Entity.getPosition(ent);
+			let xx = Math.abs(x - c.x), yy = Math.abs(y - c.y), zz = Math.abs(z - c.z);
+			if (Math.sqrt(xx * xx + yy * yy + zz * zz) <= radius) {
+				return true;
+			}
+		}
+	}
+}
+function getBlockInRad(x, y, z, radius, id, data) {
+	for (var x1 = -radius; radius >= x1; x1++)
+	for (var y1 = -radius; radius >= y1; y1++)
+	for (var block, z1 = -radius; radius >= z1; z1++){
+		block = (World.getBlock(x + x1, y + y1, z + z1).id == id && World.getBlock(x + x1, y + y1, z + z1).data == data);
+		if(block) return block;}
+}
 var Updater = {
 	source: "https://raw.githubusercontent.com/ToxesFoxes/DivineFavor/master/mod.info",
-	check: function() {
+	check: function () {
 		new java.lang.Thread(new java.lang.Runnable({
 			run: function () {
 				try {
@@ -73,7 +92,7 @@ var Updater = {
 					if (curVer === obj) {
 						obj = "No update found";
 					} else {
-						obj = "Please update to new version - "+obj;
+						obj = "Please update to new version - " + obj;
 					}
 					Logger.Log(obj, "Divine Favor", "Updater");
 				} catch (e) { Logger.LogError(e) }

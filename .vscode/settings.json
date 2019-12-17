@@ -1,4 +1,9 @@
 {
 	"terminal.integrated.cwd": "C:\\Users\\toxes\\Documents\\GitHub\\ADBModPusher",
-	"terminal.integrated.shellArgs.windows": ["/K", "C:\\Users\\toxes\\Documents\\GitHub\\ADBModPusher\\pusher.bat"]
-}
+	"terminal.integrated.shellArgs.windows": ["/K", "C:\\Users\\toxes\\Documents\\GitHub\\ADBModPusher\\pusher.bat"],
+	"bracket-pair-colorizer-2.colors": [
+		"#fc8403",
+		"#03e7fc",
+		"#00ff00"
+	],
+	"editor.find.autoFindInSelection": "multiline",

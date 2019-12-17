@@ -66,41 +66,91 @@ var blend = {
 		else return false;
 	}
 }
+
 EffectAPI.addEffect({
 	effectID: 0, name: "Hunters aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.arbow_marked_glass, 0);
+		if (spirit.getActive(0) && slot) {
+			Callback.invokeCallback("ArbowSpirit", slot);
+		}
+	}
 });
 EffectAPI.addEffect({
 	effectID: 1, name: "Frosty aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.blizrabi_marked_glass, 0);
+		if (spirit.getActive(1) && slot) {
+			Callback.invokeCallback("BlizrabiSpirit", slot);
+		}
+	}
 });
+
+let da = [false, false];
 EffectAPI.addEffect({
 	effectID: 2, name: "Distorted aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.endererer_marked_glass, 0);
+		if (spirit.getActive(2) && slot) {
+			Callback.invokeCallback("EnderererSpirit", slot, da);
+		}
+	}
 });
 EffectAPI.addEffect({
 	effectID: 3, name: "Calling aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.loon_marked_glass, 0);
+		if (spirit.getActive(3) && slot) {
+			Callback.invokeCallback("LoonSpirit", slot);
+		}
+	}
 });
 EffectAPI.addEffect({
 	effectID: 5, name: "Charred aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.neblaze_marked_glass, 0);
+		if (spirit.getActive(5) && slot) {
+			Callback.invokeCallback("NeblazeSpirit", slot);
+		}
+	}
+	//TODO: replace id 9 to fire block id
 });
 EffectAPI.addEffect({
 	effectID: 6, name: "Energetic aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.redwind_marked_glass, 0);
+		if (spirit.getActive(6) && slot) {
+			Callback.invokeCallback("RedwindSpirit", slot);
+		}
+	}
 });
 EffectAPI.addEffect({
 	effectID: 7, name: "Mineral aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.romol_marked_glass, 0);
+		if (spirit.getActive(7) && slot) {
+			Callback.invokeCallback("RomolSpirit", slot);
+		}
+	}
 });
 EffectAPI.addEffect({
 	effectID: 8, name: "Visceral aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.squarefury_marked_glass, 0);
+		if (spirit.getActive(8) && slot) {
+			Callback.invokeCallback("SquarefurySpirit", slot);
+		}
+	}
 });
 EffectAPI.addEffect({
 	effectID: 9, name: "Arboreal aura", type: 1,
-	func: function () { Player.addVelocity(0, 0.01, 0); }
+	func: function () {
+		let slot = PlayerInventory.getItemSlot(ItemID.timber_marked_glass, 0);
+		if (spirit.getActive(9) && slot) {
+			Callback.invokeCallback("TimberSpirit", slot);
+		}
+	}
+	//TODO: replace id 9 to any wood
 });
 
 blend.reg("feathers_blend", "Calm feather blend", ['a', ItemID.peace_soul_shard, 0, 'b', 288, 0], 0);
@@ -171,7 +221,7 @@ TileEntity.registerPrototype(BlockID.bath_heater, {
 			for (var pos, z1 = -3; 3 >= z1; z1++) {
 				pos = Player.getPosition();
 				// alert(Math.floor(pos.y-1)+" "+y);
-				if (Math.floor(pos.x) == (x + x1) && Math.floor(pos.y-1) == y && Math.floor(pos.z) == (z + z1)){
+				if (Math.floor(pos.x) == (x + x1) && Math.floor(pos.y - 1) == y && Math.floor(pos.z) == (z + z1)) {
 					EffectAPI.addTime(blend.list[this.data.id], 500);
 					break;
 				}

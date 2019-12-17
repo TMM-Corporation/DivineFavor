@@ -2,9 +2,14 @@ header.js
 translations.js
 Api's/FileApi.js
 Api's/BowRegistry.js
+Api's/Logger_2.0.js
 
 mod/gui/guis.js
 mod/items/regItems.js
+mod/blocks/regBlock.js
+mod/blocks/blocks.js
+mod/blocks/models.js
+mod/blocks/medium.js
 mod/items/talismans/regTalismans.js
 
 mod/spirits.js
@@ -14,6 +19,7 @@ mod/items/ingredients/shards.js
 mod/items/ingredients/wishing_stones.js
 mod/items/ingredients/calling_stones.js
 mod/items/ingredients/favor_marks.js
+mod/items/ingredients/marked_glass.js
 mod/items/talismans/arrow_talismans.js
 mod/items/talismans/blade_talismans.js
 mod/items/talismans/spell_talismans.js
@@ -21,9 +27,5 @@ mod/items/talismans/tool_talismans.js
 mod/items/Bone_Dagger.js
 mod/items/CIM Items.js
 
-mod/blocks/regBlock.js
 mod/blocks/bath_heater.js
-mod/blocks/blocks.js
-// mod/blocks/medium.js
-mod/blocks/models.js
 mod/blocks/recipes.js

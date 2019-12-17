@@ -1,5 +1,5 @@
 Callback.addCallback("PlayerAttack", function (player, victim) {
-	alert("Hurt!!");
+	// alert("Hurt!!");
 	var id = Player.getCarriedItem().id;
 	let l = Entity.getLookVector(Player.get());
 	var vel = lookDirection(l.yaw, l.pitch);
@@ -72,9 +72,9 @@ talismans.regTalisman(["blade", "poison_coating", 8, 5], "Poison coating", "ru",
 	}); //
 talismans.regTalisman(["blade", "rain_sword", 1, 5], "Rain sword", "ru", [], function (obj) {	
 	if(obj.Entity){
-		var weather = World.getWeather();
-		alert(weather);
-		if(weather == "rain")Entity.damageEntity(obj.Entity, 6);
+		// var weather = World.getWeather();
+		// alert(weather);
+		// if(weather == "rain")Entity.damageEntity(obj.Entity, 6);
 	}
 });
 talismans.regTalisman(["blade", "skyfall", 9, 80], "Skyfall", "ru", [], function (obj) { WIP()	}); //adds levitation

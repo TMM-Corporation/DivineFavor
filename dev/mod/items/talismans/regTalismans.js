@@ -30,14 +30,13 @@ var talismans = {
 		return (id in this.talisman);
 	},
 	/**
-	 * Проверяет на правильность талисмана
+	 * Проверяет на соответствие типу талисмана
 	 * @param {number} id 
+	 * @param {number} type1
+	 * @param {number} type2
 	 */
 	isValidTalisman(id, type1, type2) {
 		if(this.isValid(id)!=false){
-			// alert("one: "+talismans.getTalisman(id).type);
-			// alert("two: "+talismans.textures[type]);
-			// alert("three: "+(talismans.getTalisman(id).type)===(talismans.textures[type]));
 			if(!type2)return (talismans.getTalisman(id).type===talismans.textures[type1])
 			else return (talismans.getTalisman(id).type===talismans.textures[type2] || talismans.getTalisman(id).type===talismans.textures[type1])
 		}	else return false;
@@ -73,6 +72,7 @@ var talismans = {
 			// alert(talismans.talisman[id])
 			alert(JSON.stringify(talismans.talisman[id]));
 		});
+		medium_Prototype.addItem(ItemID[itemTexture], recipe);
 		if (ru != "ru") translateRu(en, ru);
 	},
 	getCurrentTalisman(){
@@ -83,7 +83,6 @@ var talismans = {
 				id=id.getSlot("slot_27").id;
 				var info = this.getTalisman(id);
 				if(info !== undefined){
-					// Threading.initThread("talisman", info.func(obj), 0);
 					return info;
 				}else return null;
 			}
@@ -97,20 +96,11 @@ var talismans = {
 	 * @param {array} obj объект описание который передает данные для разных типов использования
 	 */
 	useTalisman(obj) {
-		// var item = Player.getCarriedItem();
-		// if(item.extra){
-		// 	var id = CIM.containers["e" + item.extra.getInt("extraCount")].getSlot("slot_27").id;
-		// 	var info = this.getTalisman(id);
-		// 	if(info !== undefined){
-		// 		// Threading.initThread("talisman", info.func(obj), 0);
-		// 		info.func(obj)
-		// 	}
-		// }
 		var current = talismans.getCurrentTalisman();
 		if(current){
 			var energy = spirit.getProp(current.spiritID).energy;
 			if(energy>=current.cost){
-				spirit.recieveEnergy(current.spiritID, current.cost);
+				spirit.getEnergy(current.spiritID, current.cost);
 				Game.message(JSON.stringify(current), "");
 				current.func(obj);
 			}

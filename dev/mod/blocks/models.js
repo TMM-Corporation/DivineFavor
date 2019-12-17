@@ -1,146 +1,53 @@
-// Gold medium
-var gold_medium_s = new BlockRenderer.Model(BlockID.gold_medium, 0);
-var gold_medium_i = new ICRender.Model();
-gold_medium_i.addEntry(gold_medium_s);
-var arbow_medium_s_0 = new BlockRenderer.Model([
-	["gold", 0], ["gold", 0], ["gold", 0],
-	["medium_arbow_active", 0],
-	["gold", 0], ["gold", 0] ]);
-var arbow_medium_s_1 = new BlockRenderer.Model([
-	["gold", 0], ["gold", 0], ["gold", 0],
-	["medium_arbow_active_trading", 0],
-	["gold", 0], ["gold", 0] ]);
-var arbow_medium_i_0 = new ICRender.Model();
-var arbow_medium_i_1 = new ICRender.Model();
-arbow_medium_i_0.addEntry(arbow_medium_s_0);
-arbow_medium_i_1.addEntry(arbow_medium_s_1);
+function createMultiModel(bID, texture, multi, mID, enableBase, reg)
+{
+	var l_base_s, l_base_i, l_additional_s_0, l_additional_i_0, l_additional_s_1, l_additional_i_1;
+	if(reg) regBlock(bID, "Gold Medium", [[mID, 0], [mID, 0], [mID, 0], [texture[0]+"_inactive", 0], [mID, 0], [mID, 0]], false);
+	// if(typeof(bID)!='number') bID=BlockID[bID];
+	if((texture && mID)!=null)
+	{
+		l_additional_s_0 = new BlockRenderer.Model([[mID, 0], [mID, 0], [mID, 0], [texture[0]+"_active", 0], [mID, 0], [mID, 0]]);
+		l_additional_i_0 = new ICRender.Model(); l_additional_i_0.addEntry(l_additional_s_0);
+		if(multi==true)
+		{
+			l_additional_s_1 = new BlockRenderer.Model([[mID, 0], [mID, 0], [mID, 0], [texture[0]+"_active"+texture[1]||"", 0], [mID, 0], [mID, 0]]);
+			l_additional_i_1 = new ICRender.Model(); l_additional_i_1.addEntry(l_additional_s_1);
+		}
+	}
+	
+	return {
+		base_s: l_base_s, base_i: l_base_i,
+		las_0: l_additional_s_0, lai_0: l_additional_i_0,
+		las_1: l_additional_s_1, lai_1: l_additional_i_1,
+		bid: bID, mid: mID
+	};
+}
+//? Mediums
+//* Base
+//* Creating materials for another spirits
+//* Spirits
+var model_medium_arbow = createMultiModel(null, ["medium_arbow", "trading"], true, "gold_block");
+var model_medium_blizrabi = createMultiModel(null, ["medium_blizrabi", "trading"], true, "lapis_block");
+var model_medium_endererer = createMultiModel(null, ["medium_endererer", "trading"], true, "iron_block");
+var model_medium_loon = createMultiModel(null, ["medium_loon", "trading"], true, "gold_block");
+var model_medium_materia = createMultiModel(null, ["medium_materia", "trading"], true, "gold_block");
+var model_medium_neblaze = createMultiModel(null, ["medium_neblaze", "trading"], true, "obsidian");
+var model_medium_redwind = createMultiModel(null, ["medium_redwind", "trading"], true, "redstone_block");
+var model_medium_romol = createMultiModel(null, ["medium_romol", "trading"], true, "iron_block");
+var model_medium_squarefury = createMultiModel(null, ["medium_squarefury", "trading"], true, "gold_block");
+var model_medium_timber = createMultiModel(null, ["medium_timber", "trading"], true, "log_oak");
 
-var loon_medium_s_0 = new BlockRenderer.Model([
-	["gold", 0], ["gold", 0], ["gold", 0],
-	["medium_loon_active", 0],
-	["gold", 0], ["gold", 0] ]);
-var loon_medium_s_1 = new BlockRenderer.Model([
-	["gold", 0], ["gold", 0], ["gold", 0],
-	["medium_loon_active_trading", 0],
-	["gold", 0], ["gold", 0] ]);
-var loon_medium_i_0 = new ICRender.Model();
-var loon_medium_i_1 = new ICRender.Model();
-loon_medium_i_0.addEntry(loon_medium_s_0);
-loon_medium_i_1.addEntry(loon_medium_s_1);
+//? Soulbound lecterns
+var lectern_coal = createMultiModel(BlockID.lectern_coal, ["lectern_coal"], false, "coal_block", true);
+var lectern_gold = createMultiModel(BlockID.lectern_gold, ["lectern_gold"], false, "gold_block", true);
+var lectern_iron = createMultiModel(BlockID.lectern_iron, ["lectern_iron"], true, "iron_block", true);
+var lectern_log = createMultiModel(BlockID.lectern_log, ["lectern_log"], false, "log_oak", true);
+var lectern_obsidian = createMultiModel(BlockID.lectern_obsidian, ["lectern_obsidian"], false, "obsidian", true);
+var lectern_snow = createMultiModel(BlockID.lectern_snow, ["lectern_snow"], false, "snow", true);
+var lectern_stone = createMultiModel(BlockID.lectern_stone, ["lectern_stone"], true, "stone", true);
+var lectern_wood = createMultiModel(BlockID.lectern_wood, ["lectern_wood"], false, "planks_oak", true);
 
-var materia_medium_s_0 = new BlockRenderer.Model([
-	["gold", 0], ["gold", 0], ["gold", 0],
-	["medium_materia_active", 0],
-	["gold", 0], ["gold", 0] ]);
-var materia_medium_s_1 = new BlockRenderer.Model([
-	["gold", 0], ["gold", 0], ["gold", 0],
-	["medium_materia_active_trading", 0],
-	["gold", 0], ["gold", 0] ]);
-var materia_medium_i_0 = new ICRender.Model();
-var materia_medium_i_1 = new ICRender.Model();
-materia_medium_i_0.addEntry(materia_medium_s_0);
-materia_medium_i_1.addEntry(materia_medium_s_1);
-BlockRenderer.enableCoordMapping(BlockID.gold_medium, 0, gold_medium_i)
 
-// Iron medium
-var iron_medium_s = new BlockRenderer.Model(BlockID.iron_medium, 0);
-var iron_medium_i = new ICRender.Model();
-iron_medium_i.addEntry(iron_medium_s);
-var endererer_medium_s_0 = new BlockRenderer.Model([
-	["endererer", 0], ["endererer", 0], ["endererer", 0],
-	["medium_endererer_active", 0],
-	["endererer", 0], ["endererer", 0] ]);
-var endererer_medium_s_1 = new BlockRenderer.Model([
-	["endererer", 0], ["endererer", 0], ["endererer", 0],
-	["medium_endererer_active_trading", 0],
-	["endererer", 0], ["endererer", 0] ]);
-var endererer_medium_i_0 = new ICRender.Model();
-var endererer_medium_i_1 = new ICRender.Model();
-endererer_medium_i_0.addEntry(endererer_medium_s_0);
-endererer_medium_i_1.addEntry(endererer_medium_s_1);
 
-var romol_medium_s_0 = new BlockRenderer.Model([
-	["romol", 0], ["romol", 0], ["romol", 0],
-	["medium_romol_active", 0],
-	["romol", 0], ["romol", 0] ]);
-var romol_medium_s_1 = new BlockRenderer.Model([
-	["romol", 0], ["romol", 0], ["romol", 0],
-	["medium_romol_active_trading", 0],
-	["romol", 0], ["romol", 0] ]);
-var romol_medium_i_0 = new ICRender.Model();
-var romol_medium_i_1 = new ICRender.Model();
-romol_medium_i_0.addEntry(romol_medium_s_0);
-romol_medium_i_1.addEntry(romol_medium_s_1);
-BlockRenderer.enableCoordMapping(BlockID.iron_medium, 0, iron_medium_i)
 
-// Lapis medium
-var lapis_medium_s = new BlockRenderer.Model(BlockID.lapis_medium, 0);
-var lapis_medium_i = new ICRender.Model();
-lapis_medium_i.addEntry(lapis_medium_s);
-var blizrabi_medium_s_0 = new BlockRenderer.Model([
-	["blizrabi", 0], ["blizrabi", 0], ["blizrabi", 0],
-	["medium_blizrabi_active", 0],
-	["blizrabi", 0], ["blizrabi", 0] ]);
-var blizrabi_medium_s_1 = new BlockRenderer.Model([
-	["blizrabi", 0], ["blizrabi", 0], ["blizrabi", 0],
-	["medium_blizrabi_active_trading", 0],
-	["blizrabi", 0], ["blizrabi", 0] ]);
-var blizrabi_medium_i_0 = new ICRender.Model();
-var blizrabi_medium_i_1 = new ICRender.Model();
-blizrabi_medium_i_0.addEntry(blizrabi_medium_s_0);
-blizrabi_medium_i_1.addEntry(blizrabi_medium_s_1);
-BlockRenderer.enableCoordMapping(BlockID.lapis_medium, 0, lapis_medium_i)
 
-// Log medium
-var log_medium_s = new BlockRenderer.Model(BlockID.log_medium, 0);
-var log_medium_i = new ICRender.Model();
-log_medium_i.addEntry(log_medium_s);
-var timber_medium_s_0 = new BlockRenderer.Model([
-	["timber", 0], ["timber", 0], ["timber", 0],
-	["medium_timber_active", 0],
-	["timber", 0], ["timber", 0] ]);
-var timber_medium_s_1 = new BlockRenderer.Model([
-	["timber", 0], ["timber", 0], ["timber", 0],
-	["medium_timber_active_trading", 0],
-	["timber", 0], ["timber", 0] ]);
-var timber_medium_i_0 = new ICRender.Model();
-var timber_medium_i_1 = new ICRender.Model();
-timber_medium_i_0.addEntry(timber_medium_s_0);
-timber_medium_i_1.addEntry(timber_medium_s_1);
-BlockRenderer.enableCoordMapping(BlockID.log_medium, 0, log_medium_i)
 
-// obsidian medium
-var obsidian_medium_s = new BlockRenderer.Model(BlockID.obsidian_medium, 0);
-var obsidian_medium_i = new ICRender.Model();
-obsidian_medium_i.addEntry(obsidian_medium_s);
-var neblaze_medium_s_0 = new BlockRenderer.Model([
-	["neblaze", 0], ["neblaze", 0], ["neblaze", 0],
-	["medium_neblaze_active", 0],
-	["neblaze", 0], ["neblaze", 0] ]);
-var neblaze_medium_s_1 = new BlockRenderer.Model([
-	["neblaze", 0], ["neblaze", 0], ["neblaze", 0],
-	["medium_neblaze_active_trading", 0],
-	["neblaze", 0], ["neblaze", 0] ]);
-var neblaze_medium_i_0 = new ICRender.Model();
-var neblaze_medium_i_1 = new ICRender.Model();
-neblaze_medium_i_0.addEntry(neblaze_medium_s_0);
-neblaze_medium_i_1.addEntry(neblaze_medium_s_1);
-BlockRenderer.enableCoordMapping(BlockID.obsidian_medium, 0, obsidian_medium_i)
-
-// redstone medium
-var redstone_medium_s = new BlockRenderer.Model(BlockID.redstone_medium, 0);
-var redstone_medium_i = new ICRender.Model();
-redstone_medium_i.addEntry(redstone_medium_s);
-var redwind_medium_s_0 = new BlockRenderer.Model([
-	["redwind", 0], ["redwind", 0], ["redwind", 0],
-	["medium_redwind_active", 0],
-	["redwind", 0], ["redwind", 0] ]);
-var redwind_medium_s_1 = new BlockRenderer.Model([
-	["redwind", 0], ["redwind", 0], ["redwind", 0],
-	["medium_redwind_active_trading", 0],
-	["redwind", 0], ["redwind", 0] ]);
-var redwind_medium_i_0 = new ICRender.Model();
-var redwind_medium_i_1 = new ICRender.Model();
-redwind_medium_i_0.addEntry(redwind_medium_s_0);
-redwind_medium_i_1.addEntry(redwind_medium_s_1);
-BlockRenderer.enableCoordMapping(BlockID.redstone_medium, 0, redstone_medium_i)
