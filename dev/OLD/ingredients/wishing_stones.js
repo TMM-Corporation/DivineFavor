@@ -1,0 +1,10 @@
+regItem("arbow_wishing_stone",      "Arbow Wishing Stone", 64);
+regItem("blizrabi_wishing_stone",   "Blizrabi Wishing Stone", 64);
+regItem("endererer_wishing_stone",  "Endererer Wishing Stone", 64);
+regItem("loon_wishing_stone",       "Loon Wishing Stone", 64);
+regItem("materia_wishing_stone",    "Materia Wishing Stone", 64);
+regItem("neblaze_wishing_stone",    "Neblaze Wishing Stone", 64);
+regItem("redwind_wishing_stone",    "Redwind Wishing Stone", 64);
+regItem("romol_wishing_stone",      "Romol Wishing Stone", 64);
+regItem("squarefury_wishing_stone", "Squarefury Wishing Stone", 64);
+regItem("timber_wishing_stone",     "Timber Wishing Stone", 64);

@@ -1,0 +1,162 @@
+
+// BlockID: 8201, Data: 0, Name: Iron Medium
+var this = {
+	remove: false,
+	isLoaded: true,
+	__initialized: true,
+	defaultValues: [],
+
+	blockID: 8201,
+	saverId: 2138379056,
+	// data, error: TypeError: Cannot find default value for object.
+	x: 13,
+	y: 9,
+	z: 0,
+	dimension: 0,
+	// container: zhekasmirnov.launcher.api.mod.ui.container.Container@9ede6e1,
+	liquidStorage: [],
+	update() {
+		if (!this.__initialized) {
+			Saver.registerObject(this, this.saverId)
+			this.init()
+			this.__initialized = true
+		}
+		if (this.isLoaded) {
+			this.tick()
+		}
+	},
+	created() { },
+	init() { },
+
+	tick() {
+		let ticks = World.getThreadTime()
+		if (ticks % 100 == 0) {
+			this.setSpirit()
+			this.setModelBySpirit()
+			if (this.data.spiritID && this.data.model) {
+				if (Spirit.get.Active(this.data.spiritID)) {
+					this.mapRender()
+				} else {
+					this.unMapRender()
+				}
+			}
+		}
+	},
+
+	click(id, count, data, coords) {
+		return false
+	},
+
+	destroyBlock(coords, player) { },
+	redstone(params) { },
+	projectileHit(coords, projectile) { },
+	destroy() {
+		BlockRenderer.unmapAtCoords(this.x, this.y, this.z)
+	},
+
+	getGuiScreen() {
+		if (this.data.state != "trade") {
+			return new UI.StandartWindow({
+				standart: { header: { text: { text: t("Created With UIEditor") } }, background: { color: android.graphics.Color.parseColor("#C6C6C6") }, inventory: { standart: true } }, drawing: [], elements: {
+					"input0": { type: "slot", x: 370, y: 80, size: 60, bitmap: "slot_default" }, "input1": { type: "slot", x: 430, y: 80, size: 60, bitmap: "slot_default" }, "input2": { type: "slot", x: 490, y: 80, size: 60, bitmap: "slot_default" }, "input3": { type: "slot", x: 370, y: 140, size: 60, bitmap: "slot_default" }, "input4": { type: "slot", x: 430, y: 140, size: 60, bitmap: "slot_default" }, "input5": { type: "slot", x: 490, y: 140, size: 60, bitmap: "slot_default" }, "input6": { type: "slot", x: 370, y: 200, size: 60, bitmap: "slot_default" }, "input7": { type: "slot", x: 430, y: 200, size: 60, bitmap: "slot_default" }, "input8": { type: "slot", x: 490, y: 200, size: 60, bitmap: "slot_default" }, "spirit": {
+						type: "slot", x: 610, y: 140, size: 60, bitmap: "slot_default", isValid: function (id) {
+							for (let i in CIDs) {
+								var stone = Spirit.get.CallingStoneById(CIDs[i])
+								alert(id + "|" + ItemID[stone])
+								let item = (id == ItemID[stone])
+								return item
+							}
+						}
+					}, "output0": { type: "slot", x: 730, y: 80, size: 60, bitmap: "slot_default" }, "output1": { type: "slot", x: 790, y: 80, size: 60, bitmap: "slot_default" }, "output2": { type: "slot", x: 850, y: 80, size: 60, bitmap: "slot_default" }, "output3": { type: "slot", x: 730, y: 140, size: 60, bitmap: "slot_default" }, "output4": { type: "slot", x: 790, y: 140, size: 60, bitmap: "slot_default" }, "output5": { type: "slot", x: 850, y: 140, size: 60, bitmap: "slot_default" }, "output6": { type: "slot", x: 730, y: 200, size: 60, bitmap: "slot_default" }, "output7": { type: "slot", x: 790, y: 200, size: 60, bitmap: "slot_default" }, "output8": { type: "slot", x: 850, y: 200, size: 60, bitmap: "slot_default" }
+				}
+			})
+		}
+	},
+
+	onItemClick(id, count, data, coords) {
+		if (this.click(id, count, data)) {
+			return true
+		}
+		if (Entity.isSneaking(getPlayerEnt())) {
+			return false
+		}
+		var screen = this.getGuiScreen()
+		if (screen) {
+			this.container.openAs(screen)
+			return true
+		}
+	},
+
+	selfDestroy() {
+		TileEntity.destroyTileEntity(this)
+	},
+
+	requireMoreLiquid(liquid, amount) {  },
+	setModelBySpirit() {
+		if (this.data.spiritID) {
+			for (let i in this.data.spirits) {
+				if (this.data.spirits[i] == this.data.spiritID) {
+					this.data.model = medium_models[this.data.spiritID]
+				}
+			}
+		}
+	},
+
+	getInputSlot(all, num) {
+		let slots = []
+		if (all) {
+			for (let i = 0; i < 9; i++) {
+				slots[i] = this.container.getSlot("input_" + i)
+			}
+			return slots
+		} else {
+			if (num) {
+				return this.container.getSlot("input_" + num)
+			}
+		}
+	},
+
+	getOutputSlot(all, num) {
+		let slots = []
+		if (all) {
+			for (let i = 0; i < 9; i++) {
+				slots[i] = this.container.getSlot("output_" + i)
+			}
+			return slots
+		} else {
+			if (num) {
+				return this.container.getSlot("output_" + num)
+			}
+		}
+	},
+
+	setSpirit() {
+		this.data.spiritID = Spirit.get.IdByCallingStoneItemID(this.container.getSlot("spirit").id)
+	},
+
+	setState(state) {
+		this.data.state = state
+	},
+
+	getState() {
+		return this.data.state
+	},
+
+	getTradeItem() {
+		return Trade.get.Result(this.getInputSlot(true), this.data.spiritID)
+	},
+
+	mapRender() {
+		if (this.getTradeItem()) {
+			TileRenderer.mapAtCoords(this.x, this.y, this.z, this.data.model[1], this.data.meta), this.setState("trade")
+		} else {
+			TileRenderer.mapAtCoords(this.x, this.y, this.z, this.data.model[0], this.data.meta), this.setState("active")
+		}
+		return this.getState()
+	},
+
+	unMapRender() {
+		TileRenderer.mapAtCoords(this.x, this.y, this.z, id, this.data.meta)
+		this.setState("none")
+	},
+}

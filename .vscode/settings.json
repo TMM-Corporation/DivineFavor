@@ -4,6 +4,7 @@
 	"bracket-pair-colorizer-2.colors": [
 		"#fc8403",
 		"#03e7fc",
-		"#00ff00"
+		"#32a852"
 	],
 	"editor.find.autoFindInSelection": "multiline",
+}

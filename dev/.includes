@@ -1,8 +1,7 @@
+Api/DevCore.js
 header.js
-translations.js
-Api's/FileApi.js
-Api's/BowRegistry.js
-Api's/Logger_2.0.js
+Api/StructureManager.js
+Api/SpiritTradeTalisman.js
 
 mod/gui/guis.js
 mod/items/regItems.js
@@ -10,22 +9,19 @@ mod/blocks/regBlock.js
 mod/blocks/blocks.js
 mod/blocks/models.js
 mod/blocks/medium.js
-mod/items/talismans/regTalismans.js
 
-mod/spirits.js
 mod/items/Bow.js
 mod/items/ropes.js
-mod/items/ingredients/shards.js
-mod/items/ingredients/wishing_stones.js
-mod/items/ingredients/calling_stones.js
-mod/items/ingredients/favor_marks.js
-mod/items/ingredients/marked_glass.js
-mod/items/talismans/arrow_talismans.js
-mod/items/talismans/blade_talismans.js
-mod/items/talismans/spell_talismans.js
-mod/items/talismans/tool_talismans.js
+mod/items/Ingredients.js
+mod/items/Talisman/Arrow.js
+mod/items/Talisman/Blade.js
+mod/items/Talisman/Spell.js
+mod/items/Talisman/Tool.js
 mod/items/Bone_Dagger.js
 mod/items/CIM Items.js
 
 mod/blocks/bath_heater.js
 mod/blocks/recipes.js
+
+Api/DFCore.js
+Api/CallBacks.js

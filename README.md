@@ -28,7 +28,7 @@
 	 + Чтобы пробудить кинжал надо бить существ, для того чтобы наполнить кинжал силой. <img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/bone_dagger_awakened.png# item"/>
 	 + Добыть осколки душ с определенных существ.
 	 + <details> <summary>Типы душ</summary>
-		<img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/NEW/Soul%20shard/end_soul_shard.png# item"/>- Осколок души (Энд) - кристализированный из души существ другого мира находящихся в энде. Можно получить из эндерменов, эндермитов и шалкеров. Но если вы хотите острых ощущений то можете попробовать получить этот осколок души из эндер дракона.
+		<img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/NEW/Soul%20shard/end_soul_shard.png# item"/>- Осколок души (Эндер) - кристализированный из души существ другого мира находящихся в энде. Можно получить из эндерменов, эндермитов и шалкеров. Но если вы хотите острых ощущений то можете попробовать получить этот осколок души из эндер дракона.
 
 		<img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/NEW/Soul%20shard/mind_soul_shard.png# item"/>- Осколок души (Разум) - кристализированный из души умных существ. Можно получить из жителей. Не стоит забывать что они тоже живие существа...
 
@@ -44,7 +44,7 @@
 
 		<img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/NEW/Soul%20shard/will_soul_shard.png# item"/>- Осколок души (Желания) - кристализованный из души игрока. Можно получить из самого себя или ударив другого игрока.
 
-		<img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/NEW/Soul%20shard/wither_soul_shard.png# item"/>- Ос͠ко̵ло҉к д̀у͝ш͢и̡ ҉(͏Исс̶уше̴ни͟е)̕ - ͏к҉р̷и͝ста̸ли͝з̵ир͜о̶в͝анны̕й͜ из ду̧ш̧и и͝с̢су̴ш͟а͡ющ̷и̢х враждеб̛н͡ых̷ су̷щест͞в.҉ М͟ож̕н͡о ͢полу̀чит̕ь̕ и͝з͠ ске͜л̶е͏та̷ иссушите͜л̧я. 
+		<img src="https://github.com/ToxesFoxes/DivineFavor/raw/master/assets/items-opaque/NEW/Soul%20shard/wither_soul_shard.png# item"/>- Ос͠ко̵ло҉к д̀у͝ш͢и (͏Исс̶уше̴ни͟е)̕ - ͏к҉р̷и͝ста̸ли͝з̵ир͜о̶в͝анны̕й͜ из ду̧ш̧и и͝с̢су̴ш͟а͡ющ̷и̢х враждеб̛н͡ых̷ су̷щест͞в.҉ М͟ож̕н͡о ͢полу̀чит̕ь̕ и͝з͠ ске͜л̶е͏та̷ иссушите͜л̧я. 
 		</details>
 	 + Нагреватель ванны - блок который имеет не только декоративный характер но и практический, в него можно добавлять всякие смеси чтобы получить тот или иной эффект при купании в воде.
 	 + Условие работы только одно - нахождение источника воды вокруг нагревателя и питание любым горящим топливом.

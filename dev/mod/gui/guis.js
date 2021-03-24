@@ -5,7 +5,7 @@ function validateGuiSlot(gui, validator) {
 }
 
 var pouch = new UI.StandartWindow({
-	standart: {header: {text: {text: "Ritual pouch"}},
+	standart: {header: {text: {text: t("Ritual pouch")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -23,7 +23,7 @@ validateGuiSlot(pouch, function(){
 });
 
 var bowInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Spell Bow Book"}},
+	standart: {header: {text: {text: t("Spell Bow Book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -61,11 +61,11 @@ var bowInv = new UI.StandartWindow({
 	}
 });
 validateGuiSlot(bowInv, function(id, count, data){
-	return talismans.isValidTalisman(id, 0);
+	return Talisman.get.Valid(id, [0]);
 });
 
 var greenBladeInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Green Spell Blade book"}},
+	standart: {header: {text: {text: t("Green Spell Blade book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -103,11 +103,11 @@ var greenBladeInv = new UI.StandartWindow({
 	}
 });
 validateGuiSlot(greenBladeInv, function(id, count, data){
-	return talismans.isValidTalisman(id, 1, 2);
+	return Talisman.get.Valid(id, [1,2]);
 });
 
 var redBladeInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Red Spell Blade book"}},
+	standart: {header: {text: {text: t("Red Spell Blade book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -145,11 +145,11 @@ var redBladeInv = new UI.StandartWindow({
 	}
 });
 validateGuiSlot(redBladeInv, function(id, count, data){
-	return talismans.isValidTalisman(id, 1, 2);
+	return Talisman.get.Valid(id, [1,2]);
 });
 
 var bluePickInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Blue Spell Pickaxe book"}},
+	standart: {header: {text: {text: t("Blue Spell Pickaxe book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -177,11 +177,11 @@ var bluePickInv = new UI.StandartWindow({
 	}
 });
 validateGuiSlot(bluePickInv, function(id, count, data){
-	return talismans.isValidTalisman(id, 2, 3);
+	return Talisman.get.Valid(id, [2,3]);
 });
 
 var orangePickInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Orange Spell Pickaxe book"}},
+	standart: {header: {text: {text: t("Orange Spell Pickaxe book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -209,11 +209,11 @@ var orangePickInv = new UI.StandartWindow({
 	}
 });
 validateGuiSlot(orangePickInv, function(id, count, data){
-	return talismans.isValidTalisman(id, 2, 3);
+	return Talisman.get.Valid(id, [2,3]);
 });
 
 var grimoireInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Orange Spell Pickaxe book"}},
+	standart: {header: {text: {text: t("Orange Spell Pickaxe book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -241,11 +241,11 @@ var grimoireInv = new UI.StandartWindow({
 	}
 });
 validateGuiSlot(grimoireInv, function(id, count, data){
-	return talismans.isValidTalisman(id, 2);
+	return Talisman.get.Valid(id, [2]);
 });
 
 var contractInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Contract binder book"}},
+	standart: {header: {text: {text: t("Contract binder book")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -263,7 +263,7 @@ validateGuiSlot(contractInv, function(){
 });
 
 var mediumInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Medium"}},
+	standart: {header: {text: {text: t("Medium")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {
@@ -292,7 +292,7 @@ var mediumInv = new UI.StandartWindow({
 	}
 });
 var lecternInv = new UI.StandartWindow({
-	standart: {header: {text: {text: "Soulblound lectern"}},
+	standart: {header: {text: {text: t("Soulblound lectern")}},
 	background: {color: android.graphics.Color.parseColor("#b3b3b3")}, inventory: {standart: true}},
 	drawing: [],
 	elements: {

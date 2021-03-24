@@ -1,57 +1,40 @@
 function random(min, max) {
-	var rand = min - 0.5 + Math.random() * (max - min + 1)
-	rand = Math.round(rand);
-	return rand;
+	return Math.floor(Math.random() * (max - min + 1)) + min
 }
-IDRegistry.genItemID("bone_dagger");
-Item.createItem("bone_dagger", "Bone dagger", {name: "bone_dagger"}, {stack: 1});
-Recipes.addShaped({
-	id: ItemID.bone_dagger,
-	count: 1,
-	data: 0
-}, ["	 a", "bc ", "db "], ['a', 352, 0, 'b', 1, 0, 'c', 264, 0, 'd', 280, 0]);
+regItem("bone_dagger", "Bone Dagger", 1)
+regItem("bone_dagger_awakened", "Bone Dagger Awakened", 1)
 
-IDRegistry.genItemID("bone_dagger_awakened");
-Item.createItem("bone_dagger_awakened", "Bone dagger awakened", {name: "bone_dagger_awakened"}, {stack: 1});
+Recipes.addShaped({id: ItemID.bone_dagger, count: 1, data: 0},
+	["  a", "bc ", "db "], ['a', 352, 0, 'b', 1, 0, 'c', 264, 0, 'd', 280, 0])
 
-function dropByEntity(victim, entityID, item, drop) {
-	if (Entity.getType(victim) == entityID && Player.getCarriedItem().id == item) {
-	var pos = Entity.getPosition(victim);
-	if(random(0,2)==1)World.drop(pos.x, pos.y, pos.z, drop.id, drop.count, drop.data);
+function DropShard(v, isCarriedBDA) {
+	var rand = (random(0, 3) == 1), drop = 0, pos = Entity.getPosition(v)
+	switch (Entity.getType(v)) {
+		/*Enderman*/
+		case 38: drop = ItemID.end_soul_shard; break
+		/*Villager*/
+		case 15: drop = ItemID.mind_soul_shard; break
+		/*LAVA SLIME|BLAZE|GHAST|PIGMAN|WITHER SKELETON*/
+		case 38: case 41: case 42: case 43: case 48: drop = ItemID.nether_soul_shard; break
+		/*COW|CHICKEN|MUSHROOM COW|OCELOT|PIG|RABBIT|SHEEP*/
+		case 10: case 11: case 12: case 13: case 16: case 18: case 22: drop = ItemID.peace_soul_shard; break
+		/*ZOMBIE|SKELETON*/
+		case 32: case 34: drop = ItemID.undeath_soul_shard; break
+		/*SQUID|GUARDIANS*/
+		case 17: case 49: drop = ItemID.water_soul_shard; break
+		/*SLIME|CREEPER|SPIDER*/
+		case 33: case 35: case 37: drop = ItemID.wild_soul_shard; break
+		/*None*/
+		default: drop = 0; break
 	}
+	(rand && isCarriedBDA && drop != 0) ? World.drop(pos.x, pos.y, pos.z, drop, 1, 1) : null
 }
-Callback.addCallback("PlayerAttack", function (player, victim) {
-	var rand = random(0, 10);
-	if (rand == 10 && Player.getCarriedItem().id === ItemID.bone_dagger) {
-	Player.setCarriedItem(ItemID.bone_dagger_awakened, 1, 0);
-	Game.message("Awakened bone Dagger");
+Callback.addCallback("PlayerAttack", function (p, v) {
+	var rand = random(0, 10), daggerAw = ItemID.bone_dagger_awakened,
+		isCarriedBD = (Player.getCarriedItem().id === ItemID.bone_dagger)
+	isCarriedBDA = (Player.getCarriedItem().id === ItemID.bone_dagger_awakened)
+	if (rand == 10 && isCarriedBD) {
+		Player.setCarriedItem(daggerAw, 1, 0)
 	}
-	dropByEntity(victim, 38, ItemID.bone_dagger_awakened, {id: ItemID.end_soul_shard, count: 1, data: 0}); //ENDERMAN
-	dropByEntity(victim, 15, ItemID.bone_dagger_awakened, {id: ItemID.mind_soul_shard, count: 1, data: 0}); //VILLAGER
-
-	dropByEntity(victim, 42, ItemID.bone_dagger_awakened, {id: ItemID.nether_soul_shard, count: 1, data: 0}); //LAVA SLIME
-	dropByEntity(victim, 43, ItemID.bone_dagger_awakened, {id: ItemID.nether_soul_shard, count: 1, data: 0}); //BLAZE
-	dropByEntity(victim, 41, ItemID.bone_dagger_awakened, {id: ItemID.nether_soul_shard, count: 1, data: 0}); //GHAST
-	dropByEntity(victim, 36, ItemID.bone_dagger_awakened, {id: ItemID.nether_soul_shard, count: 1, data: 0}); //PIGMAN
-	dropByEntity(victim, 48, ItemID.bone_dagger_awakened, {id: ItemID.nether_soul_shard, count: 1, data: 0}); //WITHER SKELETON
-
-	dropByEntity(victim, 11, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //COW
-	dropByEntity(victim, 10, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //CHICKEN
-	dropByEntity(victim, 16, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //MUSHROOM COW
-	dropByEntity(victim, 22, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //OCELOT
-	dropByEntity(victim, 12, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //PIG
-	dropByEntity(victim, 18, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //RABBIT
-	dropByEntity(victim, 13, ItemID.bone_dagger_awakened, {id: ItemID.peace_soul_shard, count: 1, data: 0}); //SHEEP
-
-	dropByEntity(victim, 32, ItemID.bone_dagger_awakened, {id: ItemID.undeath_soul_shard, count: 1, data: 0}); //ZOMBIE
-	dropByEntity(victim, 34, ItemID.bone_dagger_awakened, {id: ItemID.undeath_soul_shard, count: 1, data: 0}); //SKELETON
-
-	dropByEntity(victim, 17, ItemID.bone_dagger_awakened, {id: ItemID.water_soul_shard, count: 1, data: 0}); //SQUID
-	dropByEntity(victim, 49, ItemID.bone_dagger_awakened, {id: ItemID.water_soul_shard, count: 1, data: 0}); //GUARDIANS
-	
-	dropByEntity(victim, 37, ItemID.bone_dagger_awakened, {id: ItemID.wild_soul_shard, count: 1, data: 0}); //SLIME
-	dropByEntity(victim, 33, ItemID.bone_dagger_awakened, {id: ItemID.wild_soul_shard, count: 1, data: 0}); //CREEPER
-	dropByEntity(victim, 35, ItemID.bone_dagger_awakened, {id: ItemID.wild_soul_shard, count: 1, data: 0}); //SPIDER
-
-	// dropByEntity(victim, 63, ItemID.bone_dagger_awakened, {id: ItemID.end_soul_shard, count: 1, data: 0}); //ENDERMAN
-});
+	DropShard(v, isCarriedBDA)
+})

@@ -5,22 +5,37 @@ Item.describeItem(ItemID.spell_bow, {
 	maxDamage: 385,
 	useAnimation: 4
 });
-BowRegistry.regBow({
-	bow: ItemID.spell_bow,
+
+var spellBow = new Bow();
+spellBow.set({
+	id: ItemID.spell_bow,
 	texture: "spell_bow",
-	bullet: 262,
+	bullets: [262],
 	skin: "entity/projectiles/arrow.png",
 	speed: 2,
 	damage: 1.5,
 	variations: 3,
-	state: 0,
 });
-Item.registerNameOverrideFunction(ItemID.spell_bow, function (item, name) {
-	var info = talismans.getCurrentTalisman();
-	if(info){
-		var isActive = spirit.getActive(info.spiritID);
-		var tooltip = "\n" + getTranslate("Spirit: ") + spirit.getNameByID(info.spiritID) + "\n" + getTranslate("Favor cost: ") + info.cost+"\n"+spirit.spirits[spirit.getNameByID(info.spiritID)].energy +"/"+spirit.spirits[spirit.getNameByID(info.spiritID)].maxEnergy;
-		return name + tooltip;
-	}
-	return name;
+AddTalismanInfo("spell_bow");
+Callback.addCallback("BowArrowHit", function (p, i, t) {// ProjectileHit
+	var id = Talisman.get.IdInCurrentItem(27);
+	// alert("Talisman ID: "+id)
+	Talisman.Use({
+		x: t.x, y: t.y, z: t.z,
+		Entity: t.entity,
+		block: World.getBlock(t.x, t.y, t.z)
+	}, id);
 });
+// Callback.addCallback("BowArrowHit", function(){
+// 	alert("BowArrowHit")
+// });
+// Callback.addCallback("BowOnShot", function(){
+// 	alert("BowOnShot")
+// });
+// Callback.addCallback("BowStateChange", function(){
+// 	alert("BowStateChange")
+// });
+//BowArrowEntityDamage, atacker, victim, damage
+//BowArrowHit, projectile, item, target
+//BowOnShot, bow
+//BowStateChange

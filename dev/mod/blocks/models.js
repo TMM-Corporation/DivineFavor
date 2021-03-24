@@ -1,53 +1,43 @@
-function createMultiModel(bID, texture, multi, mID, enableBase, reg)
-{
-	var l_base_s, l_base_i, l_additional_s_0, l_additional_i_0, l_additional_s_1, l_additional_i_1;
-	if(reg) regBlock(bID, "Gold Medium", [[mID, 0], [mID, 0], [mID, 0], [texture[0]+"_inactive", 0], [mID, 0], [mID, 0]], false);
-	// if(typeof(bID)!='number') bID=BlockID[bID];
-	if((texture && mID)!=null)
-	{
-		l_additional_s_0 = new BlockRenderer.Model([[mID, 0], [mID, 0], [mID, 0], [texture[0]+"_active", 0], [mID, 0], [mID, 0]]);
-		l_additional_i_0 = new ICRender.Model(); l_additional_i_0.addEntry(l_additional_s_0);
-		if(multi==true)
-		{
-			l_additional_s_1 = new BlockRenderer.Model([[mID, 0], [mID, 0], [mID, 0], [texture[0]+"_active"+texture[1]||"", 0], [mID, 0], [mID, 0]]);
-			l_additional_i_1 = new ICRender.Model(); l_additional_i_1.addEntry(l_additional_s_1);
+function createMultiModel(texture, type) {
+	var textures1, textures2
+	if (type == 0) {
+		if (texture[3]) {
+			textures1 = [[texture[3], 0], [texture[3], 0], [texture[1], 0], [texture[0] + "_active", 0], [texture[1], 0], [texture[1], 0], ]
+			textures2 = [[texture[3], 0], [texture[3], 0], [texture[1], 0], [texture[0] + "_active_" + (texture[2] || ""), 0], [texture[1], 0], [texture[1], 0], ]
+		} else {
+			textures1 = [[texture[1], 0], [texture[0] + "_active", 0]]
+			textures2 = [[texture[1], 0], [texture[0] + "_active_" + (texture[2] || ""), 0]]
 		}
+		TileRenderer.registerFullRotationModel(texture[0] + "_active", 0, textures1)
+		TileRenderer.registerFullRotationModel(texture[0] + "_active_" + (texture[2] || ""), 0, textures2)
+		return [(texture[0] + "_active"), (texture[0] + "_active_" + (texture[2] || ""))]
+	} else {
+		textures1 = [[texture[3] || texture[1], 0], [texture[0] + "_active", 0]]
+		TileRenderer.registerFullRotationModel(texture[0] + "_active", 0, textures1)
 	}
-	
-	return {
-		base_s: l_base_s, base_i: l_base_i,
-		las_0: l_additional_s_0, lai_0: l_additional_i_0,
-		las_1: l_additional_s_1, lai_1: l_additional_i_1,
-		bid: bID, mid: mID
-	};
 }
 //? Mediums
 //* Base
 //* Creating materials for another spirits
 //* Spirits
-var model_medium_arbow = createMultiModel(null, ["medium_arbow", "trading"], true, "gold_block");
-var model_medium_blizrabi = createMultiModel(null, ["medium_blizrabi", "trading"], true, "lapis_block");
-var model_medium_endererer = createMultiModel(null, ["medium_endererer", "trading"], true, "iron_block");
-var model_medium_loon = createMultiModel(null, ["medium_loon", "trading"], true, "gold_block");
-var model_medium_materia = createMultiModel(null, ["medium_materia", "trading"], true, "gold_block");
-var model_medium_neblaze = createMultiModel(null, ["medium_neblaze", "trading"], true, "obsidian");
-var model_medium_redwind = createMultiModel(null, ["medium_redwind", "trading"], true, "redstone_block");
-var model_medium_romol = createMultiModel(null, ["medium_romol", "trading"], true, "iron_block");
-var model_medium_squarefury = createMultiModel(null, ["medium_squarefury", "trading"], true, "gold_block");
-var model_medium_timber = createMultiModel(null, ["medium_timber", "trading"], true, "log");
+var model_medium_arbow = createMultiModel(["medium_arbow", "gold_block", "trading"], 0)
+var model_medium_blizrabi = createMultiModel(["medium_blizrabi", "lapis_block", "trading"], 0)
+var model_medium_endererer = createMultiModel(["medium_endererer", "iron_block", "trading"], 0)
+var model_medium_loon = createMultiModel(["medium_loon", "gold_block", "trading"], 0)
+var model_medium_materia = createMultiModel(["medium_materia", "gold_block", "trading"], 0)
+var model_medium_neblaze = createMultiModel(["medium_neblaze", "obsidian", "trading"], 0)
+var model_medium_redwind = createMultiModel(["medium_redwind", "redstone_block", "trading"], 0)
+var model_medium_romol = createMultiModel(["medium_romol", "iron_block", "trading"], 0)
+var model_medium_squarefury = createMultiModel(["medium_squarefury", "gold_block", "trading"], 0)
+var model_medium_timber = createMultiModel(["medium_timber", "log", "trading", "log_top"], 0)
 
 //? Soulbound lecterns
-var lectern_coal = createMultiModel(BlockID.lectern_coal, ["lectern_coal"], false, "coal_block", true);
-var lectern_gold = createMultiModel(BlockID.lectern_gold, ["lectern_gold"], false, "gold_block", true);
-var lectern_iron = createMultiModel(BlockID.lectern_iron, ["lectern_iron"], true, "iron_block", true);
-var lectern_log = createMultiModel(BlockID.lectern_log, ["lectern_log"], false, "log", true);
-var lectern_obsidian = createMultiModel(BlockID.lectern_obsidian, ["lectern_obsidian"], false, "obsidian", true);
-var lectern_snow = createMultiModel(BlockID.lectern_snow, ["lectern_snow"], false, "snow", true);
-var lectern_stone = createMultiModel(BlockID.lectern_stone, ["lectern_stone"], true, "stone", true);
-var lectern_wood = createMultiModel(BlockID.lectern_wood, ["lectern_wood"], false, "wood", true);
-
-
-
-
-
+createMultiModel(["lectern_coal", "coal_block"], 1)
+createMultiModel(["lectern_gold", "gold_block"], 1)
+createMultiModel(["lectern_iron", "iron_block"], 1)
+createMultiModel(["lectern_log", "log",], 1)
+createMultiModel(["lectern_obsidian", "obsidian"], 1)
+createMultiModel(["lectern_snow", "snow"], 1)
+createMultiModel(["lectern_stone", "stone"], 1)
+createMultiModel(["lectern_wood", "wood"], 1)
 

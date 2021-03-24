@@ -22,3 +22,5 @@
 // ["aa", "bc", ""], ['a', 351, 0, 'b', 152, 0, 'c', ItemID.bone_dagger_awakened, 0], function(){
 // 	Player.addItemToInventory(ItemID.bone_dagger_awakened, 1, 0)
 // });
+__config__.set("firstStart", false)
+__config__.save()

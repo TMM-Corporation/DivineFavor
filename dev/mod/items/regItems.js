@@ -1,44 +1,30 @@
 function translateRu(name, ru) {
-	return Translation.addTranslation(name, {ru: ru});
-}
-function getTranslate(name) {
-	return Translation.translate(name);
+	return Translation.addTranslation(name, { ru: ru });
 }
 function regItem(texture, name, stack, cr) {
 	IDRegistry.genItemID(texture);
 	Item.createItem(texture, name, { name: texture }, { isTech: cr, stack: stack });
 	return ItemID[texture];
 }
-// regItem("", "", 1);
-// regex \);\nItem\.createItem\("(.*?)"
-// regex \{ name: "(.*?)" \}, \{ stack: 
-// regex ); to);
-// regex IDRegistry\.genItemID\(to regItem(
 
-
-
+function AddTalismanInfo(id){
+	(typeof id === 'string')? id=ItemID[id]: null;
+	Item.registerNameOverrideFunction(id, function (item, ItemName) {
+		var info = Talisman.get.InCurrentItem(27);
+		if (info) {
+			var SpiritName = Spirit.get.Name(info.spirit[0])
+			SpiritEnergy = Spirit.get.Energy(info.spirit[0]);
+			return ItemName + "\n" + t("Spirit: ") + SpiritName +
+				"\n" + t("Favor cost: ") + info.spirit[1] +
+				"\n" + SpiritEnergy[0] + "/" + SpiritEnergy[1];
+		}
+		return ItemName;
+	});
+}
 regItem("ice_arrow", "Ice arrow", 64);
 regItem("memory_drop", "Memory drop", 64);
 regItem("blade_green", "Green Spell blade", 1);
-Item.registerNameOverrideFunction(ItemID.blade_green, function (item, name) {
-	var info = talismans.getCurrentTalisman();
-	if(info){
-		var isActive = spirit.getActive(info.spiritID);
-		var tooltip = "\n" + getTranslate("Spirit: ") + spirit.getNameByID(info.spiritID) + "\n" + getTranslate("Favor cost: ") + info.cost+"\n"+spirit.spirits[spirit.getNameByID(info.spiritID)].energy +"/"+spirit.spirits[spirit.getNameByID(info.spiritID)].maxEnergy;
-		return name + tooltip;
-	}
-	return name;
-});
 regItem("blade_red", "Red Spell blade", 1);
-Item.registerNameOverrideFunction(ItemID.blade_red, function (item, name) {
-	var info = talismans.getCurrentTalisman();
-	if(info){
-		var isActive = spirit.getActive(info.spiritID);
-		var tooltip = "\n" + getTranslate("Spirit: ") + spirit.getNameByID(info.spiritID) + "\n" + getTranslate("Favor cost: ") + info.cost+"\n"+spirit.spirits[spirit.getNameByID(info.spiritID)].energy +"/"+spirit.spirits[spirit.getNameByID(info.spiritID)].maxEnergy;
-		return name + tooltip;
-	}
-	return name;
-});
 regItem("pick_blue", "Blue Spell pickaxe", 1);
 regItem("pick_orange", "Orange Spell pickaxe", 1);
 regItem("banishing_wand", "Banishing wand", 1);
@@ -46,7 +32,7 @@ regItem("paint", "Paint Ethereal Brush", 1);
 regItem("big_vial", "Big Goo vial", 64);
 Item.registerIconOverrideFunction(ItemID.big_vial, function (item, name) {
 	return { name: "big_vial", meta: item.data }
-}); 
+});
 regItem("medium_vial", "Medium Goo vial", 1);
 Item.registerIconOverrideFunction(ItemID.medium_vial, function (item, name) {
 	return { name: "medium_vial", meta: item.data }
@@ -71,10 +57,6 @@ regItem("stone_ball", "Stone ball", 1);
 // regItem("roots", "Roots Cursed Arrow", 1);
 
 regItem("book_green", "Green Spell Blade book", 1, true);
-Item.registerNameOverrideFunction(ItemID.book_green, function (item, name) {
-	var tooltip = "";
-	return name+tooltip
-});
 regItem("book_red", "Red Spell Blade book", 1, true);
 regItem("book_blue", "Blue Spell Pickaxe book", 1, true);
 regItem("book_orange", "Orange Spell Pickaxe book", 1, true);
@@ -92,3 +74,13 @@ regItem("storage_gem", "Storage gem", 1);
 regItem("warp_gem", "Warp gem", 1);
 regItem("warp_pebble", "Warp pebble", 1);
 
+AddTalismanInfo("book_green");
+AddTalismanInfo("book_red");
+AddTalismanInfo("book_blue");
+AddTalismanInfo("book_orange");
+AddTalismanInfo("book_bow");
+
+AddTalismanInfo("blade_green");
+AddTalismanInfo("blade_red");
+AddTalismanInfo("pick_blue");
+AddTalismanInfo("pick_orange");

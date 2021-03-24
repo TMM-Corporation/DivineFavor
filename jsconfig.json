@@ -1,10 +1,15 @@
 {
 	"compilerOptions": {
-			"target": "ES6",
-			"lib": ["es6"]
+		"target": "ES6",
+		"lib": [
+			"es6"
+		]
 	},
 	"exclude": [
-			"node_modules",
-			"**/node_modules/*"
+		// "lib/Bow.js",
+		"main.js",
+		"dev/OLD/*",
+		"node_modules",
+		"**/node_modules/*"
 	]
 }

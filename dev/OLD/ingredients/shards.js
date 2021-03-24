@@ -1,0 +1,9 @@
+regItem("end_soul_shard",     "End Soul Shard", 64);
+regItem("mind_soul_shard",    "Mind Soul Shard", 64);
+regItem("nether_soul_shard",  "Nether Soul Shard", 64);
+regItem("peace_soul_shard",   "Peace Soul Shard", 64);
+regItem("undeath_soul_shard", "Undeath Soul Shard", 64);
+regItem("water_soul_shard",   "Water Soul Shard", 64);
+regItem("wild_soul_shard",    "Wild Soul Shard", 64);
+regItem("will_soul_shard",    "Will Soul Shard", 64);
+regItem("wither_soul_shard",  "Wither Soul Shard", 64);

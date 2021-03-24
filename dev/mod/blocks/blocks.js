@@ -22,6 +22,3 @@ regBlock("lectern_stone", "Soulbound lectern Stone", [
 
 regBlock("lectern_wood", "Soulbound lectern Wood", [
 	["wood", 0], ["wood", 0], ["wood", 0], ["lectern_wood_inactive", 0], ["wood", 0], ["wood", 0]], true);
-
-
-

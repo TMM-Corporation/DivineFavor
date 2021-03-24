@@ -16,15 +16,15 @@ var invItems = [
 	[ItemID.contract_binder],
 ]
 function ItemInv() {
-	var item = Player.getCarriedItem();
-	var sneaking = Entity.getSneaking(Player.get());
+	var item = Player.getCarriedItem(),
+		id = item.id, data = item.data, extra = item.extra,
+		sneaking = Entity.getSneaking(Player.get());
 	for (var i in invItems) {
-		var temp = invItems[i];
-		if (sneaking == true && item.id == temp[0] && temp[0] !== temp[1]) Player.setCarriedItem(temp[1], 1, item.data, item.extra);
-		if (sneaking == true && item.id == temp[1] && temp[0] !== temp[1]) Player.setCarriedItem(temp[0], 1, item.data, item.extra);
-		if (sneaking == false && item.id == temp[1] && temp[0] !== temp[1]) CIM.openGuiFor(item.id, item.data, item.extra, true);
-		if (sneaking == true && item.id == temp[0] && temp[0] == temp[1]) CIM.openGuiFor(item.id, item.data, item.extra, true);
-		if (sneaking == false && item.id == temp[0] && !temp[1]) CIM.openGuiFor(item.id, item.data, item.extra, true);
+		var t = invItems[i];
+		if (sneaking && id == t[0] && t[0] !== t[1]) Player.setCarriedItem(t[1], 1, data, extra);
+		if (sneaking && id == t[1] && t[0] !== t[1]) Player.setCarriedItem(t[0], 1, data, extra);
+		if ((!sneaking && id == t[1] && t[0] !== t[1]) || (sneaking && id == t[0] && t[0] == t[1]) || (!sneaking && id == t[0] && !t[1]))
+			CIM.openGuiFor(id, data, extra, true);
 		// if (sneaking == false && item.id == temp[1]) alert(CIM.containers["e" + item.extra.getInt("extraCount")].getSlot("slot_27").id);
 	}
 }
